@@ -4,7 +4,7 @@
   "about_url": "https://savantprogrammers.j14.co",
   "license_url": "https://opensource.org/license/mit",
   "authors": "Savant Programmers Community",
-  "theme_version": "0.2.0",
+  "theme_version": "0.3.0",
   "minimum_discourse_version": "3.5.0.beta1",
   "assets": {
     "savant-rack-background": "assets/savant-rack-atmosphere-v1.png"

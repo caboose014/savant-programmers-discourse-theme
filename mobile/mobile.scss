@@ -34,11 +34,12 @@
 }
 
 .category-list tbody {
-  gap: 0.9rem;
+  display: block;
 }
 
 .category-list tbody tr {
   display: block;
+  margin-bottom: 0.9rem;
   border-radius: 11px;
 }
 
@@ -46,6 +47,7 @@
 .category-list tbody tr > td:last-child {
   display: block;
   width: auto;
+  border: 1px solid var(--sp-line);
   border-radius: 11px;
 }
 
