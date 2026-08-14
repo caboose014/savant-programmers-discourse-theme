@@ -35,12 +35,14 @@
 
 .category-list tbody {
   display: block;
+  filter: none;
 }
 
 .category-list tbody tr {
   display: block;
   margin-bottom: 0.9rem;
   border-radius: 11px;
+  box-shadow: var(--sp-soft-shadow);
 }
 
 .category-list tbody tr > td:first-child,
