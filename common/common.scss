@@ -14,6 +14,7 @@ $sp-orange-light: #b34d28;
 $sp-orange-dark: #df693b;
 
 :root {
+  color-scheme: #{dark-light-choose(light, dark)};
   --sp-shell: #{dark-light-choose($sp-shell-light, $sp-shell-dark)};
   --sp-panel: #{dark-light-choose($sp-panel-light, $sp-panel-dark)};
   --sp-panel-strong: #{dark-light-choose(
@@ -81,6 +82,7 @@ $sp-orange-dark: #df693b;
   #site-logo {
     width: auto;
     max-height: 34px;
+    filter: #{dark-light-choose(none, brightness(0) invert(1))};
   }
 
   .title::after {
@@ -146,6 +148,9 @@ $sp-orange-dark: #df693b;
 }
 
 .category-list {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 clamp(0.85rem, 1.4vw, 1.25rem);
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -153,32 +158,32 @@ $sp-orange-dark: #df693b;
 }
 
 .category-list tbody {
-  display: grid;
-  gap: clamp(1.1rem, 2vw, 1.8rem);
+  display: table-row-group;
 }
 
 .category-list tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed;
-  border: 1px solid var(--sp-line);
-  border-radius: var(--sp-radius);
-  background: var(--sp-panel-strong);
+  display: table-row;
+  background: transparent;
   box-shadow: var(--sp-soft-shadow);
-  overflow: hidden;
-  backdrop-filter: blur(18px) saturate(112%);
 }
 
 .category-list tbody tr > td:first-child {
+  border-top: 1px solid var(--sp-line);
+  border-bottom: 1px solid var(--sp-line);
+  border-left: 1px solid var(--sp-line);
   border-radius: var(--sp-radius) 0 0 var(--sp-radius);
 }
 
 .category-list tbody tr > td:last-child {
+  border-top: 1px solid var(--sp-line);
+  border-right: 1px solid var(--sp-line);
+  border-bottom: 1px solid var(--sp-line);
   border-radius: 0 var(--sp-radius) var(--sp-radius) 0;
 }
 
 .category-list tbody tr > td {
-  background: transparent;
+  background: var(--sp-panel-strong);
+  backdrop-filter: blur(18px) saturate(112%);
 }
 
 .topic-list-header th,
@@ -372,7 +377,7 @@ $sp-orange-dark: #df693b;
 }
 
 .category-list-item > td:first-child {
-  box-shadow: inset 4px 0 0 var(--sp-category-accent, transparent);
+  box-shadow: inset 4px 0 0 var(--sp-category-accent, var(--sp-accent));
 }
 
 // Archived stays discoverable on the landing page without expanding its

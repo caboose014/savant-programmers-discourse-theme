@@ -57,7 +57,12 @@ as separate interface preferences.
 
 ## Status
 
-This is a starting package for visual review, not a production-approved theme.
+Version 0.3 is a development theme for iterative lab review, not a
+production-approved theme. The category enhancer now resolves latest-poster
+identity from both modern topic fields and the serialized poster/site-user
+collections, while preserving the native featured-topic fallback whenever
+those fields are unavailable.
+
 The generated background is original concept artwork and not a representation
 of identifiable Savant equipment.
 

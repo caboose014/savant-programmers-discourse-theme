@@ -32,8 +32,50 @@ function featuredTopic(category) {
   }, null);
 }
 
-function latestPoster(topic) {
-  return topic?.lastPosterUser ?? topic?.last_poster_user ?? topic?.lastPoster?.user;
+function collectionValues(collection) {
+  if (Array.isArray(collection)) {
+    return collection;
+  }
+  if (Array.isArray(collection?.content)) {
+    return collection.content;
+  }
+  if (typeof collection?.values === "function") {
+    return Array.from(collection.values());
+  }
+  return [];
+}
+
+function latestPoster(topic, site) {
+  const direct =
+    topic?.lastPosterUser ??
+    topic?.last_poster_user ??
+    topic?.lastPoster?.user ??
+    topic?.last_poster?.user;
+  const username =
+    direct?.username ??
+    topic?.lastPosterUsername ??
+    topic?.last_poster_username ??
+    topic?.last_poster?.username;
+  const poster = collectionValues(topic?.posters).find((candidate) =>
+    String(candidate?.description ?? "").toLowerCase().includes("most recent")
+  );
+  const userId = direct?.id ?? poster?.userId ?? poster?.user_id;
+  const siteUser = collectionValues(site?.users).find(
+    (candidate) =>
+      (userId && Number(candidate?.id) === Number(userId)) ||
+      (username && candidate?.username === username)
+  );
+
+  return {
+    username: username ?? siteUser?.username,
+    avatar_template:
+      direct?.avatar_template ??
+      direct?.avatarTemplate ??
+      siteUser?.avatar_template ??
+      siteUser?.avatarTemplate ??
+      topic?.last_poster_avatar_template ??
+      topic?.lastPosterAvatarTemplate,
+  };
 }
 
 function topicDate(topic) {
@@ -87,10 +129,10 @@ function element(tag, className, text) {
   return node;
 }
 
-function addLatestActivity(row, category) {
+function addLatestActivity(row, category, site) {
   const latestCell = row.querySelector("td.latest");
   const topic = featuredTopic(category);
-  const user = latestPoster(topic);
+  const user = latestPoster(topic, site);
   const imageUrl = avatarUrl(user);
   const href = topicUrl(topic);
   const date = topicDate(topic);
@@ -165,7 +207,7 @@ export default apiInitializer((api) => {
         row.dataset.spParentCategory = root.slug;
       }
 
-      addLatestActivity(row, category);
+      addLatestActivity(row, category, site);
     });
   };
 
