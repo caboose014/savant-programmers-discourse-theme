@@ -46,19 +46,22 @@ function collectionValues(collection) {
 }
 
 function latestPoster(topic, site) {
+  const lastPoster = topic?.lastPoster;
   const direct =
     topic?.lastPosterUser ??
     topic?.last_poster_user ??
-    topic?.lastPoster?.user ??
-    topic?.last_poster?.user;
+    lastPoster?.user ??
+    topic?.last_poster?.user ??
+    topic?.last_poster;
   const username =
     direct?.username ??
     topic?.lastPosterUsername ??
     topic?.last_poster_username ??
     topic?.last_poster?.username;
-  const poster = collectionValues(topic?.posters).find((candidate) =>
-    String(candidate?.description ?? "").toLowerCase().includes("most recent")
-  );
+  const poster =
+    collectionValues(topic?.posters).find((candidate) =>
+      candidate?.extras?.includes?.("latest")
+    ) ?? lastPoster;
   const userId = direct?.id ?? poster?.userId ?? poster?.user_id;
   const siteUser = collectionValues(site?.users).find(
     (candidate) =>
@@ -138,7 +141,9 @@ function addLatestActivity(row, category, site) {
   const date = topicDate(topic);
   const username = user?.username;
 
-  if (!latestCell || !topic?.title || !username || !imageUrl || !href || !date) {
+  const title = topic?.title ?? topic?.fancyTitle ?? topic?.fancy_title;
+
+  if (!latestCell || !title || !username || !imageUrl || !href || !date) {
     latestCell?.classList.remove("sp-has-latest-activity");
     latestCell?.querySelector(".sp-latest-activity")?.remove();
     return;
@@ -167,9 +172,9 @@ function addLatestActivity(row, category, site) {
   avatarLink.append(image);
 
   const body = element("div", "sp-latest-activity__body");
-  const topicLink = element("a", "sp-latest-activity__topic", topic.title);
+  const topicLink = element("a", "sp-latest-activity__topic", title);
   topicLink.href = href;
-  topicLink.title = topic.title;
+  topicLink.title = title;
 
   const meta = element("div", "sp-latest-activity__meta");
   const userLink = element("a", "sp-latest-activity__user", username);
@@ -195,6 +200,18 @@ export default apiInitializer((api) => {
     const categoriesById = new Map(
       categories.map((category) => [category.id, category])
     );
+
+    document.querySelectorAll("table.category-list").forEach((table) => {
+      const parentId = Number(
+        table.querySelector("thead [data-category-id]")?.dataset.categoryId
+      );
+      const parent = categoriesById.get(parentId);
+      const root = rootCategory(parent, categoriesById);
+
+      if (root?.slug) {
+        table.dataset.spParentCategory = root.slug;
+      }
+    });
 
     document.querySelectorAll(".category-list [data-category-id]").forEach((row) => {
       const category = categoriesById.get(Number(row.dataset.categoryId));

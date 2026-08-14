@@ -150,7 +150,8 @@ $sp-orange-dark: #df693b;
 .category-list {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 clamp(0.85rem, 1.4vw, 1.25rem);
+  border-spacing: 0;
+  margin-bottom: clamp(1.8rem, 3vw, 3rem);
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -159,31 +160,47 @@ $sp-orange-dark: #df693b;
 
 .category-list tbody {
   display: table-row-group;
+  filter: drop-shadow(var(--sp-soft-shadow));
 }
 
 .category-list tbody tr {
   display: table-row;
   background: transparent;
-  box-shadow: var(--sp-soft-shadow);
+  box-shadow: none;
 }
 
 .category-list tbody tr > td:first-child {
-  border-top: 1px solid var(--sp-line);
-  border-bottom: 1px solid var(--sp-line);
   border-left: 1px solid var(--sp-line);
-  border-radius: var(--sp-radius) 0 0 var(--sp-radius);
 }
 
 .category-list tbody tr > td:last-child {
-  border-top: 1px solid var(--sp-line);
   border-right: 1px solid var(--sp-line);
-  border-bottom: 1px solid var(--sp-line);
-  border-radius: 0 var(--sp-radius) var(--sp-radius) 0;
 }
 
 .category-list tbody tr > td {
+  border-bottom: 1px solid var(--sp-line);
   background: var(--sp-panel-strong);
   backdrop-filter: blur(18px) saturate(112%);
+}
+
+.category-list tbody tr:first-child > td {
+  border-top: 1px solid var(--sp-line);
+}
+
+.category-list tbody tr:first-child > td:first-child {
+  border-top-left-radius: var(--sp-radius);
+}
+
+.category-list tbody tr:first-child > td:last-child {
+  border-top-right-radius: var(--sp-radius);
+}
+
+.category-list tbody tr:last-child > td:first-child {
+  border-bottom-left-radius: var(--sp-radius);
+}
+
+.category-list tbody tr:last-child > td:last-child {
+  border-bottom-right-radius: var(--sp-radius);
 }
 
 .topic-list-header th,
@@ -223,12 +240,19 @@ $sp-orange-dark: #df693b;
   letter-spacing: -0.01em;
 }
 
-// Main category headings should visually lead their child rows.
-.category-list .category-name {
+// Parent headings should lead; child rows stay compact and scannable.
+.category-list thead .category-name {
   font-size: clamp(1.25rem, 1.25vw, 1.58rem);
   font-weight: 780;
   line-height: 1.18;
   letter-spacing: -0.025em;
+}
+
+.category-list tbody .category-name {
+  font-size: clamp(0.98rem, 0.9vw, 1.08rem);
+  font-weight: 690;
+  line-height: 1.25;
+  letter-spacing: -0.012em;
 }
 
 .category-list .category-description {
@@ -391,6 +415,12 @@ $sp-orange-dark: #df693b;
 .navigation-categories
   [data-sp-parent-category="#{$archived_category_slug}"]
   .subcategories {
+  display: none;
+}
+
+.navigation-categories
+  table.category-list[data-sp-parent-category="#{$archived_category_slug}"]
+  tbody {
   display: none;
 }
 

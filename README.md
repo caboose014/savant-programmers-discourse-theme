@@ -57,8 +57,10 @@ as separate interface preferences.
 
 ## Status
 
-Version 0.3 is a development theme for iterative lab review, not a
-production-approved theme. The category enhancer now resolves latest-poster
+Version 0.4 is a development theme for iterative lab review, not a
+production-approved theme. Child boards are grouped into one rounded panel per
+parent category, Archived stays collapsed on the landing page, and parent
+headings have a deliberately stronger hierarchy. The category enhancer resolves latest-poster
 identity from both modern topic fields and the serialized poster/site-user
 collections, while preserving the native featured-topic fallback whenever
 those fields are unavailable.
