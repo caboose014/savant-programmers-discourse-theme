@@ -1,0 +1,93 @@
+show_atmospheric_background:
+  default: true
+  type: bool
+
+show_latest_poster:
+  default: true
+  type: bool
+
+community_descriptor:
+  default: "TECHNICAL COMMUNITY"
+  type: string
+
+content_max_width:
+  default: "1760px"
+  type: string
+
+archived_category_slug:
+  default: "archived"
+  type: string
+
+savant_news_category_slug:
+  default: "savant-news"
+  type: string
+savant_news_category_color:
+  default: "#d7a04b"
+  type: string
+
+staff_category_slug:
+  default: "staff"
+  type: string
+staff_category_color:
+  default: "#5ea6d6"
+  type: string
+
+general_category_slug:
+  default: "general"
+  type: string
+general_category_color:
+  default: "#81909b"
+  type: string
+
+information_category_slug:
+  default: "information"
+  type: string
+information_category_color:
+  default: "#4f9aba"
+  type: string
+
+beta_category_slug:
+  default: "savant-beta"
+  type: string
+beta_category_color:
+  default: "#c76598"
+  type: string
+
+applications_category_slug:
+  default: "applications"
+  type: string
+applications_category_color:
+  default: "#6ba776"
+  type: string
+
+profiles_category_slug:
+  default: "profiles"
+  type: string
+profiles_category_color:
+  default: "#9178bd"
+  type: string
+
+advanced_category_slug:
+  default: "advanced"
+  type: string
+advanced_category_color:
+  default: "#d18445"
+  type: string
+
+hardware_category_slug:
+  default: "hardware"
+  type: string
+hardware_category_color:
+  default: "#cc665d"
+  type: string
+
+other_category_slug:
+  default: "other-stuff"
+  type: string
+other_category_color:
+  default: "#609296"
+  type: string
+
+archived_category_color:
+  default: "#747f87"
+  type: string

@@ -1,0 +1,98 @@
+.d-header {
+  .title::after {
+    display: none;
+  }
+
+  #site-logo {
+    max-height: 28px;
+  }
+}
+
+#main-outlet-wrapper,
+.d-header .wrap {
+  width: 100%;
+}
+
+#main-outlet {
+  min-height: calc(100vh - 4rem);
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+}
+
+.navigation-categories #main-outlet,
+.navigation-category #main-outlet,
+.navigation-topics #main-outlet,
+.navigation-latest #main-outlet,
+.navigation-new #main-outlet,
+.navigation-unread #main-outlet {
+  padding: 0.75rem;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.category-list tbody {
+  gap: 0.9rem;
+}
+
+.category-list tbody tr {
+  display: block;
+  border-radius: 11px;
+}
+
+.category-list tbody tr > td:first-child,
+.category-list tbody tr > td:last-child {
+  display: block;
+  width: auto;
+  border-radius: 11px;
+}
+
+.category-list .subcategories {
+  margin-right: -0.65rem;
+  margin-left: -0.65rem;
+}
+
+html {
+  background-position: 38% top;
+}
+
+.category-list .category-name {
+  font-size: 1.12rem;
+}
+
+.category-list .subcategories .category-name {
+  font-size: 0.92rem;
+}
+
+.category-list .topics,
+.category-list .posts,
+.topic-list .views {
+  font-size: 0.82rem;
+}
+
+.category-list.with-topics td.latest {
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--sp-line);
+}
+
+.sp-latest-activity {
+  grid-template-columns: 32px minmax(0, 1fr);
+}
+
+.sp-latest-activity__avatar {
+  width: 32px;
+  height: 32px;
+}
+
+.cooked {
+  font-size: 0.97rem;
+
+  pre {
+    margin-right: -0.35rem;
+    margin-left: -0.35rem;
+    padding: 0.85rem;
+    font-size: 0.82em;
+  }
+}

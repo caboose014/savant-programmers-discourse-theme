@@ -1,0 +1,88 @@
+.sidebar-wrapper {
+  position: sticky;
+  top: var(--header-offset, 60px);
+  align-self: flex-start;
+  height: calc(100vh - var(--header-offset, 60px));
+  border-right: 1px solid var(--sp-line);
+  background: #{dark-light-choose(rgba(239, 242, 243, 0.78), rgba(15, 18, 22, 0.86))};
+  box-shadow: 12px 0 34px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(18px) saturate(115%);
+
+  .sidebar-container {
+    scrollbar-color: var(--sp-line) transparent;
+  }
+}
+
+.has-sidebar-page #main-outlet-wrapper {
+  width: 100%;
+  max-width: none;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.has-sidebar-page #main-outlet {
+  width: min(calc(100% - 2rem), calc(var(--sp-content-max) - 18rem));
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.sidebar-section-link-wrapper .sidebar-section-link.active {
+  border-radius: 0 8px 8px 0;
+  background: #{dark-light-choose(rgba(255, 255, 255, 0.7), rgba(46, 53, 62, 0.74))};
+  box-shadow: inset 3px 0 0 var(--sp-accent);
+}
+
+.sidebar-section-link-wrapper .sidebar-section-link:hover {
+  border-radius: 0 8px 8px 0;
+  background: #{dark-light-choose(rgba(255, 255, 255, 0.5), rgba(40, 46, 54, 0.66))};
+}
+
+.list-controls .navigation-container {
+  align-items: center;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--sp-line);
+}
+
+.category-list.with-topics {
+  col.category,
+  td.category {
+    width: auto;
+  }
+
+  col.latest,
+  td.latest {
+    width: clamp(20rem, 32vw, 31rem);
+  }
+}
+
+.categories-and-latest,
+.categories-and-top {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.topic-map {
+  border: 1px solid var(--sp-line);
+  border-radius: var(--sp-radius);
+  background: var(--sp-panel-strong);
+  box-shadow: var(--sp-soft-shadow);
+}
+
+@media (min-width: 1200px) {
+  .category-list .featured-topic,
+  .category-list .latest-topic-list-item {
+    min-width: 22rem;
+  }
+}
+
+@media (max-width: 1050px) {
+  .category-list.with-topics {
+    col.latest,
+    td.latest {
+      width: 18rem;
+    }
+  }
+
+  .sp-latest-activity__topic {
+    max-width: 15rem;
+  }
+}

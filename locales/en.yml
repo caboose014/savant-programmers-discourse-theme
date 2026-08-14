@@ -1,0 +1,27 @@
+en:
+  theme_metadata:
+    description: >-
+      Standalone, full-width Savant Programmers Forum theme with compact
+      category hierarchy, inherited parent accents, light/dark palettes and an
+      atmospheric technical background.
+  settings:
+    show_atmospheric_background: "Show the atmospheric rack background"
+    show_latest_poster: "Show the latest poster avatar on category rows"
+    community_descriptor: "Short descriptor displayed beside the site logo"
+    content_max_width: "Maximum desktop forum width (CSS length)"
+    archived_category_slug: "Archived top-level category slug"
+    information_category_slug: "Information top-level category slug"
+    information_category_color: "Information accent colour"
+    beta_category_slug: "Savant Beta top-level category slug"
+    beta_category_color: "Savant Beta accent colour"
+    applications_category_slug: "Applications top-level category slug"
+    applications_category_color: "Applications accent colour"
+    profiles_category_slug: "Profiles top-level category slug"
+    profiles_category_color: "Profiles accent colour"
+    advanced_category_slug: "Advanced top-level category slug"
+    advanced_category_color: "Advanced accent colour"
+    hardware_category_slug: "Hardware top-level category slug"
+    hardware_category_color: "Hardware accent colour"
+    other_category_slug: "Other Stuff top-level category slug"
+    other_category_color: "Other Stuff accent colour"
+    archived_category_color: "Archived accent colour"
