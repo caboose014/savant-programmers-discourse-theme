@@ -23,6 +23,8 @@ hierarchy and density; it does not replace those data paths.
 - Dark-first Savant palette with an optional coordinated light colour scheme.
 - Layered graphite/translucent surfaces, restrained borders and deliberately
   softened shadows that preserve background atmosphere without harming text.
+- Renderer-safe historical SMF colour, underline, alignment, size, font and
+  restrained legacy-effect styling, adapted for both dark and light palettes.
 - Larger top-level category headings and compact grouped child-category rows
   with rounded outer corners and internal separators.
 - Configurable parent-category accents inherited by nested child rows.
