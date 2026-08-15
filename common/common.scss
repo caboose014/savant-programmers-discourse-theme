@@ -592,6 +592,109 @@ $sp-orange-dark: #df693b;
   font-size: 1rem;
   line-height: 1.62;
 
+  // Historical SMF formatting is carried as sanitizer-safe data attributes.
+  // This keeps the migrated raw independently readable while allowing the
+  // theme to adapt legacy colours for both the dark and light palettes.
+  [data-savant-color] {
+    color: var(--sp-legacy-color, inherit);
+  }
+
+  :is(
+    [data-savant-color="red"],
+    [data-savant-color="#ff0000"],
+    [data-savant-color="rgb(255, 0, 0)"],
+    [data-savant-color="rgb(221, 17, 68)"]
+  ) {
+    --sp-legacy-color: #{dark-light-choose(#b4232b, #ff777d)};
+  }
+
+  :is(
+    [data-savant-color="orange"],
+    [data-savant-color="#ff5f00"],
+    [data-savant-color="#f76501"],
+    [data-savant-color="rgb(255, 147, 0)"],
+    [data-savant-color="rgb(255, 80, 15)"]
+  ) {
+    --sp-legacy-color: #{dark-light-choose(#b84c00, #ff9d55)};
+  }
+
+  :is(
+    [data-savant-color="blue"],
+    [data-savant-color="navy"],
+    [data-savant-color="#015ba7"],
+    [data-savant-color="rgb(1, 91, 167)"],
+    [data-savant-color="rgb(0, 0, 128)"],
+    [data-savant-color="rgb(0, 0, 48)"],
+    [data-savant-color="#000030"]
+  ) {
+    --sp-legacy-color: #{dark-light-choose(#075da5, #74b9ff)};
+  }
+
+  :is([data-savant-color="green"], [data-savant-color="teal"], [data-savant-color="rgb(0, 128, 128)"]) {
+    --sp-legacy-color: #{dark-light-choose(#287658, #65d0aa)};
+  }
+
+  [data-savant-color="purple"] {
+    --sp-legacy-color: #{dark-light-choose(#75459a, #c99aef)};
+  }
+
+  [data-savant-color="yellow"] {
+    --sp-legacy-color: #{dark-light-choose(#8a6900, #f2cf64)};
+  }
+
+  :is(
+    [data-savant-color="black"],
+    [data-savant-color="#000000"],
+    [data-savant-color="#212121"],
+    [data-savant-color="rgb(0, 0, 0)"],
+    [data-savant-color="rgb(51, 51, 51)"],
+    [data-savant-color="rgb(56, 46, 43)"],
+    [data-savant-color="rgb(58, 58, 58)"],
+    [data-savant-color="rgb(102, 102, 102)"],
+    [data-savant-color="rgb(105, 96, 87)"]
+  ) {
+    --sp-legacy-color: #{dark-light-choose(#30363a, #c8cdd1)};
+  }
+
+  ins {
+    text-decoration-line: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.14em;
+  }
+
+  [data-savant-align="center"] { display: block; text-align: center; }
+  [data-savant-align="right"] { display: block; text-align: right; }
+  [data-savant-align="justify"] { display: block; text-align: justify; }
+  [data-savant-align="left"] { display: block; text-align: left; }
+
+  :is([data-savant-size="1"], [data-savant-size="x-small"], [data-savant-size="1pt"], [data-savant-size="2px"], [data-savant-size="0px"]) { font-size: 0.75em; }
+  :is([data-savant-size="2"], [data-savant-size="small"], [data-savant-size="8pt"], [data-savant-size="9pt"], [data-savant-size="9px"], [data-savant-size="10pt"], [data-savant-size="11px"], [data-savant-size="78%"], [data-savant-size="0.7em"]) { font-size: 0.82em; }
+  :is([data-savant-size="3"], [data-savant-size="medium"], [data-savant-size="12pt"], [data-savant-size="12px"], [data-savant-size="1em"]) { font-size: 1em; }
+  :is([data-savant-size="4"], [data-savant-size="14pt"], [data-savant-size="14px"], [data-savant-size="15px"], [data-savant-size="16px"], [data-savant-size="1.35em"], [data-savant-size="1.45em"]) { font-size: 1.2em; }
+  :is([data-savant-size="5"], [data-savant-size="16pt"], [data-savant-size="17px"], [data-savant-size="18pt"], [data-savant-size="1.75em"], [data-savant-size="1.8em"]) { font-size: 1.5em; }
+  [data-savant-size="24pt"] { font-size: 2em; }
+
+  :is([data-savant-font="menlo"], [data-savant-font="courier"], [data-savant-font="couriernewpsmt"], [data-savant-font="dejavu sans mono"]) {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  [data-savant-font="georgia"] {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  [data-savant-effect="glow"] {
+    text-shadow: 0 0 0.45em color-mix(in srgb, currentColor 45%, transparent);
+  }
+
+  [data-savant-effect="shadow"] {
+    text-shadow: 0 0.08em 0.12em rgba(0, 0, 0, 0.38);
+  }
+
+  [data-savant-effect="move"] {
+    // Retain the historical marker but deliberately retire marquee motion.
+    display: inline;
+  }
+
   pre {
     padding: 1rem 1.1rem;
     border: 1px solid var(--primary-low);
