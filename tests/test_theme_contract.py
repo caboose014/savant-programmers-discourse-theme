@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.7.0")
+        self.assertEqual(self.about["theme_version"], "0.7.1")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -42,6 +42,7 @@ class ThemeContractTest(unittest.TestCase):
             self.assertIn(color, settings)
         self.assertIn("$sp-orange-dark: #ee672b", self.common)
         self.assertIn("$sp-muted-dark: #c9ccd2", self.common)
+        self.assertIn("--category-badge-color: var(--sp-category-accent", self.common)
 
     def test_no_external_theme_or_runtime_dependency(self):
         self.assertNotIn("extends", self.about)
