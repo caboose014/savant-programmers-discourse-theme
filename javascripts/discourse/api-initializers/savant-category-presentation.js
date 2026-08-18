@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import { iconNode } from "discourse-common/lib/icon-library";
 
 const AVATAR_SIZE = 76;
 const relativeTime = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
@@ -8,16 +9,16 @@ const compactNumber = new Intl.NumberFormat(undefined, {
 });
 
 const UTILITY_LINKS = [
-  ["Topics", "/latest"],
-  ["Categories", "/categories"],
-  ["New", "/new"],
-  ["Search", "/search"],
-  ["Tags", "/tags"],
-  ["About", "/about"],
-  ["Guidelines", "/guidelines"],
-  ["Groups", "/g"],
-  ["Badges", "/badges"],
-  ["Filter", "/filter"],
+  ["Topics", "/latest", "layer-group"],
+  ["Categories", "/categories", "list"],
+  ["New", "/new", "plus"],
+  ["Search", "/search", "magnifying-glass"],
+  ["Tags", "/tags", "tag"],
+  ["About", "/about", "circle-info"],
+  ["Guidelines", "/guidelines", "book"],
+  ["Groups", "/g", "users"],
+  ["Badges", "/badges", "certificate"],
+  ["Filter", "/filter", "filter"],
 ];
 
 function rootCategory(category, categoriesById) {
@@ -62,7 +63,7 @@ function collectionValues(collection) {
   return [];
 }
 
-function latestPoster(topic, site) {
+function latestPoster(topic, site, store) {
   const lastPoster = topic?.lastPoster;
   const direct =
     topic?.lastPosterUser ??
@@ -80,6 +81,7 @@ function latestPoster(topic, site) {
       candidate?.extras?.includes?.("latest")
     ) ?? lastPoster;
   const userId = direct?.id ?? poster?.userId ?? poster?.user_id;
+  const storedUser = userId ? store?.getById?.("user", userId) : null;
   const siteUser = collectionValues(site?.users).find(
     (candidate) =>
       (userId && Number(candidate?.id) === Number(userId)) ||
@@ -87,10 +89,12 @@ function latestPoster(topic, site) {
   );
 
   return {
-    username: username ?? siteUser?.username,
+    username: username ?? storedUser?.username ?? siteUser?.username,
     avatar_template:
       direct?.avatar_template ??
       direct?.avatarTemplate ??
+      storedUser?.avatar_template ??
+      storedUser?.avatarTemplate ??
       siteUser?.avatar_template ??
       siteUser?.avatarTemplate ??
       poster?.avatar_template ??
@@ -193,9 +197,11 @@ function ensureUtilityMenu() {
     panel.append(element("div", "sp-utility-menu__heading", "Explore"));
 
     const grid = element("div", "sp-utility-menu__grid");
-    for (const [label, href] of UTILITY_LINKS) {
+    for (const [label, href, icon] of UTILITY_LINKS) {
       const link = element("a", "sp-utility-menu__link", label);
       link.href = href;
+      link.textContent = "";
+      link.append(iconNode(icon), element("span", "sp-utility-menu__label", label));
       grid.append(link);
     }
     panel.append(grid);
@@ -289,10 +295,10 @@ function element(tag, className, text) {
   return node;
 }
 
-function addLatestActivity(row, category, site) {
+function addLatestActivity(row, category, site, store) {
   const latestCell = row.querySelector("td.latest");
   const topic = featuredTopic(category);
-  const user = latestPoster(topic, site);
+  const user = latestPoster(topic, site, store);
   const imageUrl = avatarUrl(user);
   const href = topicUrl(topic);
   const date = topicDate(topic);
@@ -349,6 +355,7 @@ function addLatestActivity(row, category, site) {
 
 export default apiInitializer((api) => {
   const site = api.container.lookup("service:site");
+  const store = api.container.lookup("service:store");
   let framePending = false;
 
   const decorate = () => {
@@ -381,7 +388,7 @@ export default apiInitializer((api) => {
         row.dataset.spParentCategory = root.slug;
       }
 
-      addLatestActivity(row, category, site);
+      addLatestActivity(row, category, site, store);
       addCategoryStats(row, category);
     });
 
