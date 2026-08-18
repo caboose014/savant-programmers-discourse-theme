@@ -50,6 +50,31 @@ function featuredTopic(category) {
   }, null);
 }
 
+function serializedCategoriesById() {
+  const node = document.querySelector("#data-preloaded");
+  if (!node?.textContent) {
+    return new Map();
+  }
+
+  try {
+    const preloaded = JSON.parse(node.textContent);
+    const payload = JSON.parse(preloaded.categories_list ?? "{}");
+    const roots = payload?.category_list?.categories ?? [];
+    const categories = [];
+    const visit = (category) => {
+      if (!category || categories.some((candidate) => candidate.id === category.id)) {
+        return;
+      }
+      categories.push(category);
+      (category.subcategory_list ?? []).forEach(visit);
+    };
+    roots.forEach(visit);
+    return new Map(categories.map((category) => [Number(category.id), category]));
+  } catch {
+    return new Map();
+  }
+}
+
 function collectionValues(collection) {
   if (Array.isArray(collection)) {
     return collection;
@@ -315,10 +340,15 @@ function utilityIcon(name) {
   }
 }
 
-function addLatestActivity(row, category, site, store) {
+function addLatestActivity(row, category, serializedCategory, site, store) {
   const latestCell = row.querySelector("td.latest");
-  const topic = featuredTopic(category);
-  const user = latestPoster(topic, site, store);
+  const modelTopic = featuredTopic(category);
+  const serializedTopic = featuredTopic(serializedCategory);
+  const topic = modelTopic ?? serializedTopic;
+  const modelUser = latestPoster(modelTopic, site, store);
+  const serializedUser = latestPoster(serializedTopic, site, store);
+  const user =
+    modelUser?.username && avatarUrl(modelUser) ? modelUser : serializedUser;
   const imageUrl = avatarUrl(user);
   const href = topicUrl(topic);
   const date = topicDate(topic);
@@ -384,6 +414,7 @@ export default apiInitializer((api) => {
     const categoriesById = new Map(
       categories.map((category) => [category.id, category])
     );
+    const serializedById = serializedCategoriesById();
 
     document.querySelectorAll("table.category-list").forEach((table) => {
       const parentId = Number(
@@ -408,7 +439,13 @@ export default apiInitializer((api) => {
         row.dataset.spParentCategory = root.slug;
       }
 
-      addLatestActivity(row, category, site, store);
+      addLatestActivity(
+        row,
+        category,
+        serializedById.get(Number(row.dataset.categoryId)),
+        site,
+        store
+      );
       addCategoryStats(row, category);
     });
 
