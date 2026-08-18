@@ -7,11 +7,11 @@ $sp-panel-strong-dark: rgba(27, 27, 32, 0.985);
 $sp-panel-elevated-light: rgba(255, 255, 255, 0.96);
 $sp-panel-elevated-dark: rgba(35, 35, 41, 0.995);
 $sp-line-light: rgba(25, 34, 40, 0.13);
-$sp-line-dark: rgba(244, 244, 245, 0.11);
+$sp-line-dark: rgba(244, 244, 245, 0.17);
 $sp-muted-light: #5d6971;
-$sp-muted-dark: #a7abb2;
+$sp-muted-dark: #c9ccd2;
 $sp-orange-light: #b34d28;
-$sp-orange-dark: #e36f43;
+$sp-orange-dark: #ee672b;
 
 :root {
   color-scheme: #{dark-light-choose(light, dark)};
@@ -35,8 +35,8 @@ $sp-orange-dark: #e36f43;
     #{dark-light-choose(rgba(26, 32, 35, 0.12), rgba(0, 0, 0, 0.44))};
   --sp-soft-shadow: 0 8px 24px
     #{dark-light-choose(rgba(26, 32, 35, 0.08), rgba(0, 0, 0, 0.28))};
-  --sp-hover: #{dark-light-choose(#fff, #2b2b31)};
-  --sp-selected: #{dark-light-choose(#edf0f2, #34343a)};
+  --sp-hover: #{dark-light-choose(#fff, #303137)};
+  --sp-selected: #{dark-light-choose(#f4e2da, #493027)};
   --sp-popover: #{dark-light-choose(#fff, #1b1b20)};
   --sp-popover-strong: #{dark-light-choose(#f4f6f7, #232329)};
 }
@@ -94,7 +94,7 @@ $sp-orange-dark: #e36f43;
     max-width: 13rem;
     padding-left: 0.85rem;
     border-left: 1px solid rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.9);
     content: "#{$community_descriptor}";
     font-size: 0.66rem;
     font-weight: 680;
@@ -229,8 +229,36 @@ $sp-orange-dark: #e36f43;
 .topic-list-item:hover,
 .category-list tbody tr:hover,
 .latest-topic-list-item:hover {
-  background: #{dark-light-choose(rgba(255, 255, 255, 0.7), rgba(47, 54, 63, 0.9))};
+  background: #{dark-light-choose(rgba(255, 255, 255, 0.7), rgba(53, 47, 45, 0.94))};
   box-shadow: inset 3px 0 0 var(--sp-row-accent, var(--sp-accent));
+}
+
+.topic-list-item:hover td,
+.category-list tbody tr:hover > td {
+  border-color: color-mix(in srgb, var(--sp-row-accent, var(--sp-accent)) 48%, var(--sp-line));
+}
+
+a:hover,
+a:focus-visible,
+.topic-list .main-link a.title:hover,
+.sp-latest-activity__topic:hover {
+  color: var(--sp-accent);
+}
+
+.nav-pills > li > a.active,
+.nav-pills > li.active > a,
+.navigation-container .nav-pills > li > a.active {
+  border-color: color-mix(in srgb, var(--sp-accent) 65%, transparent);
+  background: color-mix(in srgb, var(--sp-accent) 20%, var(--sp-panel-elevated));
+  box-shadow: inset 0 -2px 0 var(--sp-accent);
+  color: var(--primary);
+}
+
+.badge-notification.unread-posts,
+.badge-notification.new-posts,
+.sidebar-section-link-prefix.icon.unread,
+.topic-list .num.new {
+  color: var(--sp-accent);
 }
 
 .topic-list-item td,
@@ -247,6 +275,7 @@ $sp-orange-dark: #e36f43;
 
 // Parent headings should lead; child rows stay compact and scannable.
 .category-list thead .category-name {
+  color: var(--primary);
   font-size: clamp(1.25rem, 1.25vw, 1.58rem);
   font-weight: 780;
   line-height: 1.18;
@@ -291,7 +320,13 @@ $sp-orange-dark: #e36f43;
 }
 
 .category-list .subcategories .subcategory:hover {
-  background: #{dark-light-choose(rgba(255, 255, 255, 0.62), rgba(43, 50, 59, 0.7))};
+  background: #{dark-light-choose(rgba(255, 255, 255, 0.62), rgba(56, 46, 43, 0.82))};
+}
+
+.category-list .category-logo.aspect-image,
+.category-list .category-icon,
+.category-list .badge-category__wrapper .d-icon {
+  color: var(--sp-category-accent, var(--sp-accent));
 }
 
 .category-list .subcategories .category-name {

@@ -4,7 +4,7 @@
   "about_url": "https://savantprogrammers.j14.co",
   "license_url": "https://opensource.org/license/mit",
   "authors": "Savant Programmers Community",
-  "theme_version": "0.6.5",
+  "theme_version": "0.7.0",
   "minimum_discourse_version": "3.5.0.beta1",
   "svg_icons": "layer-group|list|plus|magnifying-glass|tag|circle-info|book|users|certificate|filter",
   "assets": {
@@ -14,14 +14,14 @@
     "Savant Forum Dark": {
       "primary": "f4f4f5",
       "secondary": "0b0b0e",
-      "tertiary": "e36f43",
-      "quaternary": "a7abb2",
+      "tertiary": "ee672b",
+      "quaternary": "d7d9de",
       "header_background": "0b0b0e",
       "header_primary": "f8f8f9",
-      "highlight": "343438",
-      "danger": "ef7378",
-      "success": "6fc39a",
-      "love": "ef7758"
+      "highlight": "4a3025",
+      "danger": "ff6570",
+      "success": "49d990",
+      "love": "ff704d"
     },
     "Savant Forum Light": {
       "primary": "22282c",
