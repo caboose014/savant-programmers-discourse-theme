@@ -6,6 +6,14 @@ show_latest_poster:
   default: true
   type: bool
 
+show_utility_menu:
+  default: true
+  type: bool
+
+compact_welcome_banner:
+  default: true
+  type: bool
+
 community_descriptor:
   default: "TECHNICAL COMMUNITY"
   type: string

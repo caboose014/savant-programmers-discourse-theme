@@ -7,6 +7,8 @@ en:
   settings:
     show_atmospheric_background: "Show the atmospheric rack background"
     show_latest_poster: "Show the latest poster avatar on category rows"
+    show_utility_menu: "Show the compact header navigation menu"
+    compact_welcome_banner: "Use the compact welcome and search treatment"
     community_descriptor: "Short descriptor displayed beside the site logo"
     content_max_width: "Maximum desktop forum width (CSS length)"
     archived_category_slug: "Archived top-level category slug"

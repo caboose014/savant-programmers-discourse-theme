@@ -18,6 +18,13 @@ hierarchy and density; it does not replace those data paths.
 
 - Wide, single-column forum canvas with a persistent edge-aligned desktop
   sidebar and normal responsive mobile navigation.
+- Opaque near-black reading surfaces, crisp neutral typography and restrained
+  Savant accents modelled on the low-noise information hierarchy of the Epic
+  Developer Community without copying its brand assets or site shell.
+- Compact two-column header navigation popover for secondary destinations,
+  plus a matching two-column treatment for Discourse's native More menu.
+- Shared high-contrast hover, selection, menu, autocomplete, modal, search and
+  user-notification surfaces so highlighted rows never lose their labels.
 - Generated atmospheric equipment-rack background extending behind the full
   interface, without an oversized enclosing content panel.
 - Dark-first Savant palette with an optional coordinated light colour scheme.
@@ -31,6 +38,8 @@ hierarchy and density; it does not replace those data paths.
 - Latest thread title, latest-poster avatar and username, and relative activity
   time derived from the already-loaded featured-topic model; no additional
   network request or plugin is required.
+- Compact per-category topic/post statistics drawn from the already-loaded
+  category model.
 - Archived parent visible on `/categories`, with its child list shown only on
   the dedicated Archived page.
 - Compact technical post and code-block styling.
@@ -59,13 +68,15 @@ as separate interface preferences.
 
 ## Status
 
-Version 0.4 is a development theme for iterative lab review, not a
+Version 0.6 is a development theme for iterative lab review, not a
 production-approved theme. Child boards are grouped into one rounded panel per
 parent category, Archived stays collapsed on the landing page, and parent
 headings have a deliberately stronger hierarchy. The category enhancer resolves latest-poster
 identity from both modern topic fields and the serialized poster/site-user
 collections, while preserving the native featured-topic fallback whenever
-those fields are unavailable.
+those fields are unavailable. Version 0.6 also introduces a consistent
+near-black surface system, compact welcome/search treatment, utility navigation
+popover, model-backed category counts and explicit selected-row contrast rules.
 
 The generated background is original concept artwork and not a representation
 of identifiable Savant equipment.
