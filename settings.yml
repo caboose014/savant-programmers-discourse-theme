@@ -30,72 +30,72 @@ savant_news_category_slug:
   default: "savant-news"
   type: string
 savant_news_category_color:
-  default: "#d7a04b"
+  default: "#ffb21c"
   type: string
 
 staff_category_slug:
   default: "staff"
   type: string
 staff_category_color:
-  default: "#5ea6d6"
+  default: "#35b6ff"
   type: string
 
 general_category_slug:
   default: "general"
   type: string
 general_category_color:
-  default: "#81909b"
+  default: "#9db2c5"
   type: string
 
 information_category_slug:
   default: "information"
   type: string
 information_category_color:
-  default: "#4f9aba"
+  default: "#20c7ff"
   type: string
 
 beta_category_slug:
   default: "savant-beta"
   type: string
 beta_category_color:
-  default: "#c76598"
+  default: "#ff4fa3"
   type: string
 
 applications_category_slug:
   default: "applications"
   type: string
 applications_category_color:
-  default: "#6ba776"
+  default: "#4cda7b"
   type: string
 
 profiles_category_slug:
   default: "profiles"
   type: string
 profiles_category_color:
-  default: "#9178bd"
+  default: "#a879ff"
   type: string
 
 advanced_category_slug:
   default: "advanced"
   type: string
 advanced_category_color:
-  default: "#d18445"
+  default: "#ff9a32"
   type: string
 
 hardware_category_slug:
   default: "hardware"
   type: string
 hardware_category_color:
-  default: "#cc665d"
+  default: "#ff625c"
   type: string
 
 other_category_slug:
   default: "other-stuff"
   type: string
 other_category_color:
-  default: "#609296"
+  default: "#2fd4c8"
   type: string
 
 archived_category_color:
-  default: "#747f87"
+  default: "#a6b2bd"
   type: string
