@@ -1079,11 +1079,17 @@ blockquote {
   text-decoration: none;
 }
 
-.sp-utility-menu__link .d-icon {
+.sp-utility-menu__link :is(.d-icon, .sp-utility-menu__icon-fallback) {
   width: 1.05rem;
   height: 1.05rem;
   margin-right: 0.65rem;
   color: var(--primary-medium);
+}
+
+.sp-utility-menu__icon-fallback {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 50%;
 }
 
 .sp-utility-menu__link:hover,
@@ -1093,7 +1099,8 @@ blockquote {
   color: var(--primary);
 }
 
-.sp-utility-menu__link:is(:hover, :focus-visible, [aria-current="page"]) .d-icon {
+.sp-utility-menu__link:is(:hover, :focus-visible, [aria-current="page"])
+  :is(.d-icon, .sp-utility-menu__icon-fallback) {
   color: var(--sp-accent);
 }
 
