@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.6.3")
+        self.assertEqual(self.about["theme_version"], "0.6.4")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -55,7 +55,9 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("display: none;", self.common)
 
     def test_category_information_contract(self):
-        self.assertIn("addLatestActivity(row, category, site, store)", self.script)
+        self.assertIn("serializedCategoriesById()", self.script)
+        self.assertIn('document.querySelector("#data-preloaded")', self.script)
+        self.assertIn("serializedById.get(Number(row.dataset.categoryId))", self.script)
         self.assertIn("addCategoryStats(row, category)", self.script)
         self.assertIn("post_count", self.script)
         self.assertIn("poster?.avatar_template", self.script)
