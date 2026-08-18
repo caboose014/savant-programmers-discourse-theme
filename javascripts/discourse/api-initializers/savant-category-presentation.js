@@ -65,10 +65,14 @@ function collectionValues(collection) {
 
 function latestPoster(topic, site, store) {
   const lastPoster = topic?.lastPoster;
+  const camelLastPosterUser =
+    lastPoster?.username || lastPoster?.avatar_template || lastPoster?.avatarTemplate
+      ? lastPoster
+      : lastPoster?.user;
   const direct =
     topic?.lastPosterUser ??
     topic?.last_poster_user ??
-    lastPoster?.user ??
+    camelLastPosterUser ??
     topic?.last_poster?.user ??
     topic?.last_poster;
   const username =
@@ -91,7 +95,11 @@ function latestPoster(topic, site, store) {
 
   return {
     username:
-      username ?? posterUser?.username ?? storedUser?.username ?? siteUser?.username,
+      username ??
+      posterUser?.username ??
+      poster?.username ??
+      storedUser?.username ??
+      siteUser?.username,
     avatar_template:
       direct?.avatar_template ??
       direct?.avatarTemplate ??
