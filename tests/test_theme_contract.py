@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.6.0")
+        self.assertEqual(self.about["theme_version"], "0.6.1")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -43,9 +43,15 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn('aria-expanded", "false', self.script)
         self.assertIn('event.key !== "Escape"', self.script)
         self.assertIn("sp-utility-menu__grid", self.common)
+        self.assertIn("iconNode(icon)", self.script)
+
+    def test_live_qa_resolves_posters_and_compacts_search(self):
+        self.assertIn('store?.getById?.("user", userId)', self.script)
+        self.assertIn(".welcome-banner__title", self.common)
+        self.assertIn("display: none;", self.common)
 
     def test_category_information_contract(self):
-        self.assertIn("addLatestActivity(row, category, site)", self.script)
+        self.assertIn("addLatestActivity(row, category, site, store)", self.script)
         self.assertIn("addCategoryStats(row, category)", self.script)
         self.assertIn("post_count", self.script)
         self.assertIn("poster?.avatar_template", self.script)

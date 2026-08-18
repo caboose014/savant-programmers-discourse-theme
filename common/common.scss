@@ -642,7 +642,7 @@ a:focus-visible {
 
   .welcome-banner__wrap {
     display: grid;
-    grid-template-columns: minmax(12rem, 0.72fr) minmax(18rem, 1.28fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     gap: clamp(1rem, 3vw, 3rem);
     max-width: none;
@@ -650,19 +650,13 @@ a:focus-visible {
   }
 
   .welcome-banner__title {
-    margin: 0;
-    color: var(--primary);
-    font-size: clamp(1.25rem, 2vw, 1.8rem);
-    font-weight: 760;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-    text-align: left;
+    display: none;
   }
 
   .welcome-banner__search-menu {
     width: 100%;
-    max-width: none;
-    margin: 0;
+    max-width: 46rem;
+    margin: 0 auto;
   }
 }
 
@@ -1085,13 +1079,11 @@ blockquote {
   text-decoration: none;
 }
 
-.sp-utility-menu__link::before {
-  width: 0.42rem;
-  height: 0.42rem;
-  margin-right: 0.58rem;
-  border: 1px solid var(--primary-medium);
-  border-radius: 50%;
-  content: "";
+.sp-utility-menu__link .d-icon {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin-right: 0.65rem;
+  color: var(--primary-medium);
 }
 
 .sp-utility-menu__link:hover,
@@ -1101,9 +1093,8 @@ blockquote {
   color: var(--primary);
 }
 
-.sp-utility-menu__link[aria-current="page"]::before {
-  border-color: var(--sp-accent);
-  background: var(--sp-accent);
+.sp-utility-menu__link:is(:hover, :focus-visible, [aria-current="page"]) .d-icon {
+  color: var(--sp-accent);
 }
 
 .cooked {
