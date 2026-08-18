@@ -4,9 +4,9 @@
   align-self: flex-start;
   height: calc(100vh - var(--header-offset, 60px));
   border-right: 1px solid var(--sp-line);
-  background: #{dark-light-choose(rgba(239, 242, 243, 0.78), rgba(15, 18, 22, 0.86))};
-  box-shadow: 12px 0 34px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(18px) saturate(115%);
+  background: #{dark-light-choose(rgba(239, 242, 243, 0.94), rgba(11, 11, 14, 0.965))};
+  box-shadow: none;
+  backdrop-filter: blur(20px) saturate(105%);
 
   .sidebar-container {
     scrollbar-color: var(--sp-line) transparent;
@@ -28,13 +28,13 @@
 
 .sidebar-section-link-wrapper .sidebar-section-link.active {
   border-radius: 0 8px 8px 0;
-  background: #{dark-light-choose(rgba(255, 255, 255, 0.7), rgba(46, 53, 62, 0.74))};
+  background: var(--sp-selected);
   box-shadow: inset 3px 0 0 var(--sp-accent);
 }
 
 .sidebar-section-link-wrapper .sidebar-section-link:hover {
   border-radius: 0 8px 8px 0;
-  background: #{dark-light-choose(rgba(255, 255, 255, 0.5), rgba(40, 46, 54, 0.66))};
+  background: var(--sp-hover);
 }
 
 .list-controls .navigation-container {
@@ -51,7 +51,12 @@
 
   col.latest,
   td.latest {
-    width: clamp(20rem, 32vw, 31rem);
+    width: clamp(19rem, 29vw, 29rem);
+  }
+
+  col.topics,
+  td.topics {
+    width: clamp(9rem, 12vw, 13rem);
   }
 }
 
@@ -71,6 +76,22 @@
   .category-list .featured-topic,
   .category-list .latest-topic-list-item {
     min-width: 22rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .sidebar-wrapper {
+    flex: 0 0 280px;
+    width: 280px;
+  }
+
+  .sidebar-wrapper .sidebar-container {
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+  }
+
+  .topic-post article.boxed {
+    padding-right: clamp(1rem, 2.2vw, 2rem);
   }
 }
 

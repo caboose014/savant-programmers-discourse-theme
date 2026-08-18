@@ -2,6 +2,23 @@ import { apiInitializer } from "discourse/lib/api";
 
 const AVATAR_SIZE = 76;
 const relativeTime = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
+const compactNumber = new Intl.NumberFormat(undefined, {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
+
+const UTILITY_LINKS = [
+  ["Topics", "/latest"],
+  ["Categories", "/categories"],
+  ["New", "/new"],
+  ["Search", "/search"],
+  ["Tags", "/tags"],
+  ["About", "/about"],
+  ["Guidelines", "/guidelines"],
+  ["Groups", "/g"],
+  ["Badges", "/badges"],
+  ["Filter", "/filter"],
+];
 
 function rootCategory(category, categoriesById) {
   let current = category;
@@ -76,9 +93,149 @@ function latestPoster(topic, site) {
       direct?.avatarTemplate ??
       siteUser?.avatar_template ??
       siteUser?.avatarTemplate ??
+      poster?.avatar_template ??
+      poster?.avatarTemplate ??
       topic?.last_poster_avatar_template ??
       topic?.lastPosterAvatarTemplate,
   };
+}
+
+function categoryCount(category, snakeCase, camelCase) {
+  const value = Number(category?.[snakeCase] ?? category?.[camelCase]);
+  return Number.isFinite(value) && value >= 0 ? value : null;
+}
+
+function addCategoryStats(row, category) {
+  const cell = row.querySelector("td.topics");
+  if (!cell) {
+    return;
+  }
+
+  const topics = categoryCount(category, "topic_count", "topicCount");
+  const posts = categoryCount(category, "post_count", "postCount");
+  if (topics === null && posts === null) {
+    return;
+  }
+
+  const signature = `${topics ?? ""}:${posts ?? ""}`;
+  let wrapper = cell.querySelector(".sp-category-stats");
+  if (wrapper?.dataset.signature === signature) {
+    return;
+  }
+
+  wrapper?.remove();
+  wrapper = element("div", "sp-category-stats");
+  wrapper.dataset.signature = signature;
+
+  for (const [label, value] of [
+    ["Topics", topics],
+    ["Posts", posts],
+  ]) {
+    if (value === null) {
+      continue;
+    }
+    const item = element("span", "sp-category-stat");
+    const number = element(
+      "span",
+      "sp-category-stat__value",
+      compactNumber.format(value)
+    );
+    number.title = value.toLocaleString();
+    const caption = element("span", "sp-category-stat__label", label);
+    item.append(number, caption);
+    wrapper.append(item);
+  }
+
+  cell.textContent = "";
+  cell.append(wrapper);
+  cell.classList.add("sp-has-category-stats");
+}
+
+function updateUtilityCurrent(panel) {
+  const path = window.location.pathname;
+  panel.querySelectorAll(".sp-utility-menu__link").forEach((link) => {
+    const href = link.getAttribute("href");
+    const exact = href === "/categories" || href === "/latest" || href === "/new";
+    const active = exact ? path === href : path === href || path.startsWith(`${href}/`);
+    if (active) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+function ensureUtilityMenu() {
+  if (!settings.show_utility_menu) {
+    document.querySelector(".sp-utility-menu")?.remove();
+    return;
+  }
+
+  const headerIcons = document.querySelector(".d-header-icons");
+  if (!headerIcons) {
+    return;
+  }
+
+  let root = headerIcons.querySelector(".sp-utility-menu");
+  if (!root) {
+    root = element("li", "header-dropdown-toggle sp-utility-menu");
+    const trigger = element("button", "btn no-text btn-icon btn-flat sp-utility-menu__trigger");
+    trigger.type = "button";
+    trigger.title = "Navigation menu";
+    trigger.setAttribute("aria-label", "Navigation menu");
+    trigger.setAttribute("aria-haspopup", "true");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.append(element("span", "sp-utility-menu__glyph"));
+
+    const panel = element("nav", "sp-utility-menu__panel");
+    panel.hidden = true;
+    panel.setAttribute("aria-label", "Forum navigation");
+    panel.append(element("div", "sp-utility-menu__heading", "Explore"));
+
+    const grid = element("div", "sp-utility-menu__grid");
+    for (const [label, href] of UTILITY_LINKS) {
+      const link = element("a", "sp-utility-menu__link", label);
+      link.href = href;
+      grid.append(link);
+    }
+    panel.append(grid);
+
+    trigger.addEventListener("click", (event) => {
+      event.stopPropagation();
+      panel.hidden = !panel.hidden;
+      trigger.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+    panel.addEventListener("click", (event) => event.stopPropagation());
+    root.append(trigger, panel);
+    headerIcons.insertBefore(root, headerIcons.querySelector("#current-user"));
+  }
+
+  const panel = root.querySelector(".sp-utility-menu__panel");
+  updateUtilityCurrent(panel);
+
+  if (!document.documentElement.dataset.spUtilityListeners) {
+    document.documentElement.dataset.spUtilityListeners = "true";
+    document.addEventListener("click", () => {
+      const trigger = document.querySelector(".sp-utility-menu__trigger");
+      const openPanel = document.querySelector(".sp-utility-menu__panel:not([hidden])");
+      if (openPanel && trigger) {
+        openPanel.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") {
+        return;
+      }
+      const trigger = document.querySelector(".sp-utility-menu__trigger");
+      const openPanel = document.querySelector(".sp-utility-menu__panel:not([hidden])");
+      if (openPanel && trigger) {
+        openPanel.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+        trigger.focus();
+      }
+    });
+  }
 }
 
 function topicDate(topic) {
@@ -225,7 +382,10 @@ export default apiInitializer((api) => {
       }
 
       addLatestActivity(row, category, site);
+      addCategoryStats(row, category);
     });
+
+    ensureUtilityMenu();
   };
 
   const scheduleDecorate = () => {

@@ -1,17 +1,17 @@
 $sp-shell-light: #dfe3e5;
-$sp-shell-dark: #0f1216;
+$sp-shell-dark: #0b0b0e;
 $sp-panel-light: rgba(247, 249, 250, 0.8);
-$sp-panel-dark: rgba(24, 29, 35, 0.82);
+$sp-panel-dark: rgba(20, 20, 24, 0.96);
 $sp-panel-strong-light: rgba(252, 253, 253, 0.91);
-$sp-panel-strong-dark: rgba(29, 34, 41, 0.92);
+$sp-panel-strong-dark: rgba(27, 27, 32, 0.985);
 $sp-panel-elevated-light: rgba(255, 255, 255, 0.96);
-$sp-panel-elevated-dark: rgba(36, 42, 50, 0.96);
+$sp-panel-elevated-dark: rgba(35, 35, 41, 0.995);
 $sp-line-light: rgba(25, 34, 40, 0.13);
-$sp-line-dark: rgba(230, 236, 240, 0.09);
+$sp-line-dark: rgba(244, 244, 245, 0.11);
 $sp-muted-light: #5d6971;
-$sp-muted-dark: #9ba6af;
+$sp-muted-dark: #a7abb2;
 $sp-orange-light: #b34d28;
-$sp-orange-dark: #df693b;
+$sp-orange-dark: #e36f43;
 
 :root {
   color-scheme: #{dark-light-choose(light, dark)};
@@ -28,13 +28,17 @@ $sp-orange-dark: #df693b;
   --sp-line: #{dark-light-choose($sp-line-light, $sp-line-dark)};
   --sp-muted: #{dark-light-choose($sp-muted-light, $sp-muted-dark)};
   --sp-accent: #{dark-light-choose($sp-orange-light, $sp-orange-dark)};
-  --sp-radius: 14px;
-  --sp-radius-small: 9px;
+  --sp-radius: 12px;
+  --sp-radius-small: 8px;
   --sp-content-max: #{$content_max_width};
-  --sp-panel-shadow: 0 18px 55px
-    #{dark-light-choose(rgba(26, 32, 35, 0.12), rgba(0, 0, 0, 0.32))};
-  --sp-soft-shadow: 0 8px 28px
-    #{dark-light-choose(rgba(26, 32, 35, 0.08), rgba(0, 0, 0, 0.22))};
+  --sp-panel-shadow: 0 22px 64px
+    #{dark-light-choose(rgba(26, 32, 35, 0.12), rgba(0, 0, 0, 0.44))};
+  --sp-soft-shadow: 0 8px 24px
+    #{dark-light-choose(rgba(26, 32, 35, 0.08), rgba(0, 0, 0, 0.28))};
+  --sp-hover: #{dark-light-choose(#fff, #2b2b31)};
+  --sp-selected: #{dark-light-choose(#edf0f2, #34343a)};
+  --sp-popover: #{dark-light-choose(#fff, #1b1b20)};
+  --sp-popover-strong: #{dark-light-choose(#f4f6f7, #232329)};
 }
 
 @if $show_atmospheric_background {
@@ -43,9 +47,9 @@ $sp-orange-dark: #df693b;
     background-image:
       linear-gradient(
         to bottom,
-        #{dark-light-choose(rgba(226, 230, 232, 0.5), rgba(8, 11, 14, 0.52))}
+        #{dark-light-choose(rgba(226, 230, 232, 0.58), rgba(4, 4, 6, 0.88))}
           0,
-        #{dark-light-choose(rgba(222, 226, 228, 0.68), rgba(12, 15, 19, 0.78))}
+        #{dark-light-choose(rgba(222, 226, 228, 0.72), rgba(7, 7, 10, 0.94))}
           72%,
         var(--sp-shell) 100%
       ),
@@ -54,6 +58,7 @@ $sp-orange-dark: #df693b;
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
+    background-blend-mode: normal;
   }
 
   body,
@@ -69,9 +74,9 @@ $sp-orange-dark: #df693b;
 
 .d-header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  background: #{dark-light-choose(rgba(42, 48, 53, 0.96), rgba(17, 21, 26, 0.94))};
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.24);
-  backdrop-filter: blur(18px) saturate(120%);
+  background: #{dark-light-choose(rgba(42, 48, 53, 0.98), rgba(11, 11, 14, 0.985))};
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(22px) saturate(105%);
 
   .title {
     display: flex;
@@ -586,6 +591,519 @@ $sp-orange-dark: #df693b;
   border: 1px solid var(--sp-line);
   border-radius: var(--sp-radius-small);
   box-shadow: var(--sp-soft-shadow);
+}
+
+// v0.6: restrained Epic-inspired interface system. The selectors below stay
+// on supported Discourse surfaces so the theme remains independently
+// disableable and does not require a plugin or core patch.
+body {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+a,
+.btn-flat,
+.btn-transparent {
+  transition:
+    color 120ms ease,
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--primary);
+}
+
+.d-header .d-header-icons .btn,
+.d-header .d-header-icons a {
+  border-radius: 8px;
+  color: var(--primary-medium);
+}
+
+.d-header .d-header-icons .btn:hover,
+.d-header .d-header-icons a:hover,
+.d-header .d-header-icons .btn:focus-visible,
+.d-header .d-header-icons a:focus-visible {
+  background: var(--sp-hover);
+  color: var(--primary);
+}
+
+@if $compact_welcome_banner {
+  .welcome-banner.--location-above-topic-content {
+    margin: 0 0 1rem;
+    padding: clamp(0.85rem, 1.7vw, 1.25rem);
+    border: 1px solid var(--sp-line);
+    border-radius: var(--sp-radius);
+    background: #{dark-light-choose(rgba(255, 255, 255, 0.76), rgba(15, 15, 19, 0.86))};
+    box-shadow: var(--sp-soft-shadow);
+    backdrop-filter: blur(18px);
+  }
+
+  .welcome-banner__wrap {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.72fr) minmax(18rem, 1.28fr);
+    align-items: center;
+    gap: clamp(1rem, 3vw, 3rem);
+    max-width: none;
+    padding: 0;
+  }
+
+  .welcome-banner__title {
+    margin: 0;
+    color: var(--primary);
+    font-size: clamp(1.25rem, 2vw, 1.8rem);
+    font-weight: 760;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-align: left;
+  }
+
+  .welcome-banner__search-menu {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+.search-input,
+.search-menu-container,
+.search-menu .menu-panel {
+  border-color: var(--sp-line);
+  background: var(--sp-panel-elevated);
+  color: var(--primary);
+}
+
+.search-input {
+  border: 1px solid var(--sp-line);
+  border-radius: 9px;
+  box-shadow: none;
+}
+
+.search-input:focus-within {
+  border-color: color-mix(in srgb, var(--sp-accent) 70%, var(--sp-line));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sp-accent) 16%, transparent);
+}
+
+.search-term__input {
+  color: var(--primary);
+}
+
+.search-term__input::placeholder {
+  color: var(--primary-medium);
+  opacity: 1;
+}
+
+.navigation-categories .category-breadcrumb {
+  display: none;
+}
+
+.list-controls .navigation-container {
+  min-height: 3rem;
+  margin-bottom: 0.8rem;
+  padding: 0 0 0.8rem;
+}
+
+.nav-pills > li > a {
+  padding: 0.58rem 0.82rem;
+  border: 1px solid transparent;
+  color: var(--primary-medium);
+  font-weight: 620;
+}
+
+.nav-pills > li > a:hover {
+  border-color: var(--sp-line);
+  background: var(--sp-hover);
+  color: var(--primary);
+}
+
+.nav-pills > li a.active,
+.nav-pills > li.active > a {
+  border-color: var(--sp-line);
+  background: var(--sp-selected);
+  color: var(--primary);
+  box-shadow: none;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  color: #0d0d10;
+  font-weight: 720;
+}
+
+.btn-default,
+.btn-flat,
+.btn-transparent,
+.select-kit .select-kit-header {
+  color: var(--primary-medium);
+}
+
+.btn-default:hover,
+.btn-default:focus-visible,
+.btn-flat:hover,
+.btn-flat:focus-visible,
+.btn-transparent:hover,
+.btn-transparent:focus-visible,
+.select-kit .select-kit-header:hover,
+.select-kit .select-kit-header:focus-visible {
+  background: var(--sp-hover);
+  color: var(--primary);
+}
+
+// One contrast contract for native menus, select-kits, modals, autocomplete,
+// user notifications and the theme utility menu. This explicitly fixes the
+// selected-row/text collision found during the live audit.
+:is(
+  .menu-panel,
+  .fk-d-menu,
+  .fk-d-menu__inner-content,
+  .select-kit .select-kit-body,
+  .select-kit .select-kit-collection,
+  .d-modal__container,
+  .modal-inner-container,
+  .dialog-content,
+  .autocomplete,
+  .user-menu .quick-access-panel,
+  .user-menu .quick-access-panel .panel-body,
+  .search-menu .menu-panel,
+  .sp-utility-menu__panel
+) {
+  border-color: var(--sp-line) !important;
+  background: var(--sp-popover) !important;
+  color: var(--primary) !important;
+  box-shadow: var(--sp-panel-shadow) !important;
+}
+
+:is(
+  .menu-panel,
+  .fk-d-menu,
+  .select-kit .select-kit-body,
+  .autocomplete,
+  .user-menu .quick-access-panel,
+  .sp-utility-menu__panel
+) :is(a, button, .name, .label, .d-icon, .d-button-label) {
+  color: inherit;
+}
+
+:is(
+  .menu-panel,
+  .fk-d-menu,
+  .select-kit .select-kit-body,
+  .autocomplete,
+  .user-menu .quick-access-panel,
+  .sp-utility-menu__panel
+) :is(
+  a,
+  button,
+  .select-kit-row,
+  .sidebar-section-link
+):is(:hover, :focus-visible, .is-highlighted, .is-selected, .active, [aria-selected="true"]) {
+  background: var(--sp-selected) !important;
+  color: var(--primary) !important;
+}
+
+.select-kit .select-kit-row.is-selected .d-icon,
+.select-kit .select-kit-row.is-highlighted .d-icon,
+.user-menu .quick-access-panel li:hover .d-icon {
+  color: var(--primary) !important;
+}
+
+.d-modal__container,
+.modal-inner-container,
+.dialog-content,
+.menu-panel,
+.fk-d-menu,
+.select-kit .select-kit-body,
+.sp-utility-menu__panel {
+  border: 1px solid var(--sp-line);
+  border-radius: 11px;
+}
+
+.sidebar-more-section-links-details-content {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.2rem;
+  padding: 0.45rem;
+}
+
+.sidebar-more-section-links-details-content .sidebar-section-link-wrapper {
+  min-width: 0;
+}
+
+.sidebar-more-section-links-details-content .sidebar-section-link {
+  min-height: 2.55rem;
+  border-radius: 7px;
+}
+
+.sidebar-more-section-links-details-content .sidebar-section-link-wrapper:last-child {
+  grid-column: 1 / -1;
+  margin-top: 0.3rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--sp-line);
+}
+
+.topic-list {
+  border-color: var(--sp-line);
+  background: var(--sp-panel-strong);
+  box-shadow: none;
+}
+
+.topic-list-header {
+  background: var(--sp-popover-strong);
+}
+
+.topic-list-item {
+  background: transparent;
+}
+
+.topic-list-item:hover {
+  background: var(--sp-hover);
+}
+
+.topic-list-item .main-link a.title,
+.topic-list-item .link-top-line a.title {
+  color: var(--primary);
+  font-weight: 690;
+}
+
+.topic-list-item .topic-excerpt,
+.topic-list-item .topic-list-data,
+.topic-list-item .topic-list-data a:not(.title) {
+  color: var(--sp-muted);
+}
+
+.category-list {
+  color: var(--primary);
+}
+
+.category-list thead th {
+  padding-top: 0;
+  padding-bottom: 0.72rem;
+  border: 0;
+  background: transparent;
+}
+
+.category-list thead .category-name,
+.category-list thead .category-name a {
+  color: var(--primary);
+  font-size: clamp(1.35rem, 1.8vw, 1.85rem);
+  font-weight: 790;
+}
+
+.category-list thead .category-name + span,
+.category-list thead .category-name + .badge-notification {
+  color: var(--sp-muted);
+  font-weight: 560;
+}
+
+.category-list tbody tr > td {
+  background: var(--sp-panel-strong);
+  backdrop-filter: none;
+}
+
+.category-list tbody tr:hover > td {
+  background: var(--sp-hover);
+}
+
+.category-list tbody .category-name,
+.category-list tbody .category-name a,
+.category-list tbody .category-text-title {
+  color: var(--primary);
+}
+
+.category-list-item > td:first-child {
+  box-shadow: inset 3px 0 0 var(--sp-category-accent, var(--sp-accent));
+}
+
+.category-list .category-description {
+  max-width: 52rem;
+  color: var(--sp-muted);
+  font-size: 0.9rem;
+}
+
+.category-list td.topics.sp-has-category-stats {
+  vertical-align: middle;
+}
+
+.sp-category-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(4.2rem, auto));
+  justify-content: end;
+  gap: 0.45rem;
+  color: var(--sp-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-category-stat {
+  display: grid;
+  gap: 0.05rem;
+  min-width: 4.2rem;
+  text-align: right;
+}
+
+.sp-category-stat__value {
+  color: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 730;
+}
+
+.sp-category-stat__label {
+  color: var(--sp-muted);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.sp-latest-activity__topic {
+  color: var(--primary);
+}
+
+.sp-latest-activity__user,
+.sp-latest-activity__time {
+  color: var(--sp-muted);
+}
+
+.topic-post article.boxed {
+  border: 1px solid var(--sp-line);
+  background: var(--sp-panel-strong);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.topic-post article.boxed:hover {
+  border-color: color-mix(in srgb, var(--sp-line) 62%, var(--primary-medium));
+}
+
+.topic-body .contents .cooked {
+  color: var(--primary);
+}
+
+.topic-meta-data,
+.post-info,
+.topic-map,
+.timeline-container {
+  color: var(--sp-muted);
+}
+
+.post-controls .actions button,
+.topic-footer-button {
+  border-radius: 7px;
+  color: var(--primary-medium);
+}
+
+.post-controls .actions button:hover,
+.topic-footer-button:hover {
+  background: var(--sp-hover);
+  color: var(--primary);
+}
+
+.quote,
+blockquote {
+  border-left-color: var(--sp-accent);
+  background: #{dark-light-choose(#edf0f2, #151519)};
+  color: var(--primary);
+}
+
+// Compact header utility menu inspired by the reference site's low-noise
+// navigation popover. It uses ordinary links and remains useful if JavaScript
+// enhancements elsewhere are unavailable.
+.sp-utility-menu {
+  position: relative;
+}
+
+.sp-utility-menu__trigger {
+  display: inline-grid;
+  place-items: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  padding: 0;
+}
+
+.sp-utility-menu__glyph,
+.sp-utility-menu__glyph::before,
+.sp-utility-menu__glyph::after {
+  display: block;
+  width: 1.15rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+
+.sp-utility-menu__glyph {
+  position: relative;
+}
+
+.sp-utility-menu__glyph::before,
+.sp-utility-menu__glyph::after {
+  position: absolute;
+  left: 0;
+  content: "";
+}
+
+.sp-utility-menu__glyph::before { top: -0.36rem; }
+.sp-utility-menu__glyph::after { top: 0.36rem; }
+
+.sp-utility-menu__panel {
+  position: absolute;
+  z-index: 1200;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: min(22rem, calc(100vw - 1.5rem));
+  padding: 0.7rem;
+}
+
+.sp-utility-menu__panel[hidden] {
+  display: none;
+}
+
+.sp-utility-menu__heading {
+  margin: 0.3rem 0.45rem 0.6rem;
+  color: var(--sp-muted);
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.sp-utility-menu__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.sp-utility-menu__link {
+  display: flex;
+  align-items: center;
+  min-height: 2.65rem;
+  padding: 0.62rem 0.72rem;
+  border-radius: 8px;
+  color: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 620;
+  text-decoration: none;
+}
+
+.sp-utility-menu__link::before {
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-right: 0.58rem;
+  border: 1px solid var(--primary-medium);
+  border-radius: 50%;
+  content: "";
+}
+
+.sp-utility-menu__link:hover,
+.sp-utility-menu__link:focus-visible,
+.sp-utility-menu__link[aria-current="page"] {
+  background: var(--sp-selected);
+  color: var(--primary);
+}
+
+.sp-utility-menu__link[aria-current="page"]::before {
+  border-color: var(--sp-accent);
+  background: var(--sp-accent);
 }
 
 .cooked {
