@@ -39,7 +39,8 @@ function avatarUrl(user) {
 }
 
 function featuredTopic(category) {
-  const topics = category?.featuredTopics ?? category?.featured_topics ?? [];
+  const topics =
+    category?.featuredTopics ?? category?.featured_topics ?? category?.topics ?? [];
   return topics.reduce((latest, topic) => {
     if (!latest) {
       return topic;
