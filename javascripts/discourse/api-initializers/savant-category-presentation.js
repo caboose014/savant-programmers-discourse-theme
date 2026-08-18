@@ -80,7 +80,8 @@ function latestPoster(topic, site, store) {
     collectionValues(topic?.posters).find((candidate) =>
       candidate?.extras?.includes?.("latest")
     ) ?? lastPoster;
-  const userId = direct?.id ?? poster?.userId ?? poster?.user_id;
+  const posterUser = poster?.user;
+  const userId = direct?.id ?? posterUser?.id ?? poster?.userId ?? poster?.user_id;
   const storedUser = userId ? store?.getById?.("user", userId) : null;
   const siteUser = collectionValues(site?.users).find(
     (candidate) =>
@@ -89,10 +90,13 @@ function latestPoster(topic, site, store) {
   );
 
   return {
-    username: username ?? storedUser?.username ?? siteUser?.username,
+    username:
+      username ?? posterUser?.username ?? storedUser?.username ?? siteUser?.username,
     avatar_template:
       direct?.avatar_template ??
       direct?.avatarTemplate ??
+      posterUser?.avatar_template ??
+      posterUser?.avatarTemplate ??
       storedUser?.avatar_template ??
       storedUser?.avatarTemplate ??
       siteUser?.avatar_template ??
@@ -201,7 +205,7 @@ function ensureUtilityMenu() {
       const link = element("a", "sp-utility-menu__link", label);
       link.href = href;
       link.textContent = "";
-      link.append(iconNode(icon), element("span", "sp-utility-menu__label", label));
+      link.append(utilityIcon(icon), element("span", "sp-utility-menu__label", label));
       grid.append(link);
     }
     panel.append(grid);
@@ -293,6 +297,14 @@ function element(tag, className, text) {
     node.textContent = text;
   }
   return node;
+}
+
+function utilityIcon(name) {
+  try {
+    return iconNode(name) ?? element("span", "sp-utility-menu__icon-fallback");
+  } catch {
+    return element("span", "sp-utility-menu__icon-fallback");
+  }
 }
 
 function addLatestActivity(row, category, site, store) {
