@@ -345,6 +345,26 @@ a:focus-visible,
   --sp-row-accent: var(--sp-category-accent, var(--sp-accent));
 }
 
+.category-list [data-sp-parent-category] :is(
+  .badge-category,
+  .badge-category__wrapper,
+  .category-icon
+) {
+  --category-badge-color: var(--sp-category-accent, var(--sp-accent));
+  border-color: var(--sp-category-accent, var(--sp-accent));
+  color: var(--sp-category-accent, var(--sp-accent));
+}
+
+.category-list table[data-sp-parent-category] thead :is(
+  .badge-category,
+  .badge-category__wrapper,
+  .category-icon,
+  .d-icon
+) {
+  --category-badge-color: var(--sp-category-accent, var(--sp-accent));
+  color: var(--sp-category-accent, var(--sp-accent));
+}
+
 [data-sp-parent-category="#{$information_category_slug}"] {
   --sp-category-accent: #{$information_category_color};
 }
