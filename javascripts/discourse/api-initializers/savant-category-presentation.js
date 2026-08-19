@@ -568,6 +568,11 @@ function decorateIdeaRows() {
   }
 
   const headerRow = table.querySelector("thead tr");
+  if (headerRow && !headerRow.querySelector("th.sp-idea-rank-column")) {
+    const heading = element("th", "sp-idea-rank-column", "Rank");
+    heading.scope = "col";
+    headerRow.querySelector("th.posters")?.before(heading);
+  }
   if (headerRow && !headerRow.querySelector("th.sp-idea-votes")) {
     const heading = element("th", "sp-idea-votes", "Votes");
     heading.scope = "col";
@@ -579,15 +584,22 @@ function decorateIdeaRows() {
   const ranked = [];
 
   table.querySelectorAll("tbody tr.topic-list-item").forEach((row, index) => {
+    let rankCell = row.querySelector("td.sp-idea-rank-column");
     let cell = row.querySelector("td.sp-idea-votes");
     const voteLink = row.querySelector(".list-vote-count");
     const match = voteLink?.textContent?.match(/\d[\d,]*/);
     const votes = match ? Number(match[0].replaceAll(",", "")) : null;
 
+    if (!rankCell) {
+      rankCell = element("td", "num topic-list-data sp-idea-rank-column");
+      row.querySelector("td.posters")?.before(rankCell);
+    }
+
     if (!cell) {
       cell = element("td", "num topic-list-data sp-idea-votes");
       row.querySelector("td.posters")?.before(cell);
     }
+    cell.querySelector(".sp-idea-rank")?.remove();
 
     if (!cell.dataset.ready) {
       cell.dataset.ready = "true";
@@ -611,7 +623,7 @@ function decorateIdeaRows() {
     }
 
     if (!row.classList.contains("pinned") && Number.isFinite(votes) && votes > 0) {
-      ranked.push({ row, cell, votes, index });
+      ranked.push({ row, votes, index });
     }
 
     if (implementedView || row.classList.contains("archived")) {
@@ -628,12 +640,16 @@ function decorateIdeaRows() {
   }
 
   table.querySelectorAll("tbody tr.topic-list-item").forEach((row) => {
-    const cell = row.querySelector("td.sp-idea-votes");
+    const rankCell = row.querySelector("td.sp-idea-rank-column");
     const rank = rankByRow.get(row);
-    const marker = cell?.querySelector(".sp-idea-rank");
+    const marker = rankCell?.querySelector(".sp-idea-rank");
+    const empty = rankCell?.querySelector(".sp-idea-rank-empty");
 
     if (!rank) {
       marker?.remove();
+      if (rankCell && !empty) {
+        rankCell.append(element("span", "sp-idea-rank-empty", "—"));
+      }
       delete row.dataset.spIdeaRank;
       return;
     }
@@ -642,6 +658,7 @@ function decorateIdeaRows() {
     }
 
     marker?.remove();
+    empty?.remove();
     const replacement = element(
       "span",
       `sp-idea-rank sp-idea-rank--${rank}`,
@@ -649,7 +666,7 @@ function decorateIdeaRows() {
     );
     replacement.dataset.rank = String(rank);
     replacement.setAttribute("aria-label", `Rank ${rank}`);
-    cell.prepend(replacement);
+    rankCell?.append(replacement);
     row.dataset.spIdeaRank = String(rank);
   });
 }
