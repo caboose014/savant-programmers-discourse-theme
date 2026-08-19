@@ -1,5 +1,4 @@
 import { apiInitializer } from "discourse/lib/api";
-import { iconNode } from "discourse-common/lib/icon-library";
 
 const AVATAR_SIZE = 76;
 const relativeTime = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
@@ -9,9 +8,7 @@ const compactNumber = new Intl.NumberFormat(undefined, {
 });
 
 const UTILITY_LINKS = [
-  ["Topics", "/latest", "layer-group"],
   ["Categories", "/categories", "list"],
-  ["New", "/new", "plus"],
   ["Search", "/search", "magnifying-glass"],
   ["Tags", "/tags", "tag"],
   ["About", "/about", "circle-info"],
@@ -334,10 +331,45 @@ function element(tag, className, text) {
 }
 
 function utilityIcon(name) {
-  try {
-    return iconNode(name) ?? element("span", "sp-utility-menu__icon-fallback");
-  } catch {
-    return element("span", "sp-utility-menu__icon-fallback");
+  const namespace = "http://www.w3.org/2000/svg";
+  const icon = document.createElementNS(namespace, "svg");
+  const use = document.createElementNS(namespace, "use");
+
+  icon.setAttribute(
+    "class",
+    `fa d-icon d-icon-${name} svg-icon fa-width-auto svg-string`
+  );
+  icon.setAttribute("width", "1em");
+  icon.setAttribute("height", "1em");
+  icon.setAttribute("aria-hidden", "true");
+  use.setAttribute("href", `#${name}`);
+  icon.append(use);
+  return icon;
+}
+
+function addCategoryColumnHeadings(table) {
+  const topics = table.querySelector("thead th.topics");
+  if (!topics || topics.querySelector(".sp-category-stat-headings")) {
+    return;
+  }
+
+  topics.textContent = "";
+  const headings = element("span", "sp-category-stat-headings");
+  headings.append(
+    element("span", "sp-category-stat-heading", "Topics"),
+    element("span", "sp-category-stat-heading", "Posts")
+  );
+  topics.append(headings);
+}
+
+function ensureDesktopSidebar() {
+  if (!window.matchMedia("(min-width: 1000px)").matches) {
+    return;
+  }
+
+  const toggle = document.querySelector(".header-sidebar-toggle button");
+  if (toggle?.getAttribute("aria-expanded") === "false") {
+    toggle.click();
   }
 }
 
@@ -427,6 +459,8 @@ export default apiInitializer((api) => {
       if (root?.slug) {
         table.dataset.spParentCategory = root.slug;
       }
+
+      addCategoryColumnHeadings(table);
     });
 
     document.querySelectorAll(".category-list [data-category-id]").forEach((row) => {
@@ -450,6 +484,7 @@ export default apiInitializer((api) => {
       addCategoryStats(row, category);
     });
 
+    ensureDesktopSidebar();
     ensureUtilityMenu();
   };
 

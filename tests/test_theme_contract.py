@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.7.1")
+        self.assertEqual(self.about["theme_version"], "0.8.0")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -64,6 +64,13 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("sp-utility-menu__grid", self.common)
         self.assertIn("utilityIcon(icon)", self.script)
         self.assertIn("svg_icons", self.about)
+        self.assertIn('use.setAttribute("href", `#${name}`)', self.script)
+
+    def test_desktop_categories_only_navigation_and_fixed_sidebar(self):
+        self.assertIn("ensureDesktopSidebar()", self.script)
+        self.assertIn(".header-sidebar-toggle", self.desktop)
+        self.assertIn(".nav-item_hot", self.common)
+        self.assertIn(".sp-category-stat-headings", self.common)
 
     def test_live_qa_resolves_posters_and_compacts_search(self):
         self.assertIn('store?.getById?.("user", userId)', self.script)

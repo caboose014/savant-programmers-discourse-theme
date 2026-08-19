@@ -80,9 +80,28 @@
 }
 
 @media (min-width: 1000px) {
+  // The forum uses the sidebar as its permanent desktop navigation. Keep it
+  // visible, remove the redundant collapse control, and align the brand with
+  // the sidebar's link rail.
+  .header-sidebar-toggle {
+    display: none !important;
+  }
+
+  .d-header .wrap {
+    width: 100%;
+    padding-right: 2rem;
+    padding-left: 2rem;
+  }
+
+  .d-header .title {
+    margin-left: 0;
+  }
+
   .sidebar-wrapper {
+    display: block !important;
     flex: 0 0 280px;
     width: 280px;
+    transform: none !important;
   }
 
   .sidebar-wrapper .sidebar-container {
