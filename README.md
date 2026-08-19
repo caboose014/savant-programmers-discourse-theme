@@ -70,7 +70,7 @@ as separate interface preferences.
 
 ## Status
 
-Version 0.6 is a development theme for iterative lab review, not a
+Version 0.10 is a development theme for iterative lab review, not a
 production-approved theme. Child boards are grouped into one rounded panel per
 parent category, Archived stays collapsed on the landing page, and parent
 headings have a deliberately stronger hierarchy. The category enhancer resolves latest-poster
@@ -79,6 +79,13 @@ collections, while preserving the native featured-topic fallback whenever
 those fields are unavailable. Version 0.6 also introduces a consistent
 near-black surface system, compact welcome/search treatment, utility navigation
 popover, model-backed category counts and explicit selected-row contrast rules.
+
+Version 0.10 adds the first full-surface visual QA contract: concise mobile
+category cards, a dedicated mobile Idea Promotions rank/topic/vote grid,
+aligned desktop information columns, consistent composer/form/popover contrast,
+visible keyboard focus, and coordinated profile, group, badge, search and
+review surfaces. These rules remain theme-only and can be disabled without
+changing Discourse data or core code.
 
 The generated background is original concept artwork and not a representation
 of identifiable Savant equipment.

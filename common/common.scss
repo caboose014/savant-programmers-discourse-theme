@@ -1,11 +1,11 @@
 $sp-shell-light: #dfe3e5;
 $sp-shell-dark: #0b0b0e;
 $sp-panel-light: rgba(247, 249, 250, 0.8);
-$sp-panel-dark: rgba(20, 20, 24, 0.96);
+$sp-panel-dark: rgba(20, 20, 24, 0.9);
 $sp-panel-strong-light: rgba(252, 253, 253, 0.91);
-$sp-panel-strong-dark: rgba(27, 27, 32, 0.985);
+$sp-panel-strong-dark: rgba(27, 27, 32, 0.92);
 $sp-panel-elevated-light: rgba(255, 255, 255, 0.96);
-$sp-panel-elevated-dark: rgba(35, 35, 41, 0.995);
+$sp-panel-elevated-dark: rgba(35, 35, 41, 0.975);
 $sp-line-light: rgba(25, 34, 40, 0.13);
 $sp-line-dark: rgba(244, 244, 245, 0.17);
 $sp-muted-light: #5d6971;
@@ -47,9 +47,9 @@ $sp-orange-dark: #ee672b;
     background-image:
       linear-gradient(
         to bottom,
-        #{dark-light-choose(rgba(226, 230, 232, 0.58), rgba(4, 4, 6, 0.88))}
+        #{dark-light-choose(rgba(226, 230, 232, 0.58), rgba(4, 4, 6, 0.77))}
           0,
-        #{dark-light-choose(rgba(222, 226, 228, 0.72), rgba(7, 7, 10, 0.94))}
+        #{dark-light-choose(rgba(222, 226, 228, 0.72), rgba(7, 7, 10, 0.89))}
           72%,
         var(--sp-shell) 100%
       ),
@@ -1657,4 +1657,306 @@ blockquote {
 // cast/remove action on an implemented topic; the count remains inspectable.
 .sp-idea-topic--implemented .voting-wrapper__button {
   display: none !important;
+}
+
+// --------------------------------------------------------------------------
+// v0.10 full-surface visual QA polish
+// --------------------------------------------------------------------------
+
+// A visible keyboard focus treatment is shared by native Discourse controls
+// and the theme's enhancements. It deliberately does not rely on colour alone.
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--sp-accent) 88%, white);
+  outline-offset: 2px;
+}
+
+// Keep every floating surface legible even when a plugin introduces a nested
+// wrapper with its own background or muted text colour.
+:is(
+  .menu-panel,
+  .fk-d-menu,
+  .select-kit .select-kit-body,
+  .autocomplete,
+  .user-menu.revamped,
+  .search-menu .menu-panel,
+  .d-modal__container,
+  .dialog-content
+) {
+  --primary: #{dark-light-choose(#22282c, #f4f4f5)};
+  --primary-medium: #{dark-light-choose(#5d6971, #c9ccd2)};
+  --primary-low: var(--sp-line);
+}
+
+:is(
+  .menu-panel,
+  .fk-d-menu,
+  .select-kit .select-kit-body,
+  .autocomplete,
+  .user-menu.revamped,
+  .search-menu .menu-panel
+) :is(.description, .instructions, .subtext, small, time) {
+  color: var(--sp-muted) !important;
+}
+
+:is(.select-kit-row, .menu-panel li, .autocomplete li) {
+  border-radius: 7px;
+}
+
+:is(.select-kit-row, .menu-panel li, .autocomplete li):is(
+    :hover,
+    :focus-within,
+    .is-highlighted,
+    .is-selected,
+    [aria-selected="true"]
+  ) :is(a, button, span, div, .name, .description, .d-icon) {
+  color: var(--primary) !important;
+}
+
+// Form controls should look like part of the same graphite system rather than
+// pale islands inside dialogs, composer panels, profiles and admin popovers.
+:is(
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="number"],
+  textarea,
+  .d-editor-input,
+  .filter-input
+) {
+  border-color: var(--sp-line);
+  border-radius: 8px;
+  background: #{dark-light-choose(rgba(255, 255, 255, 0.86), rgba(9, 9, 12, 0.86))};
+  color: var(--primary);
+}
+
+:is(input, textarea)::placeholder {
+  color: var(--sp-muted);
+  opacity: 0.78;
+}
+
+// Test/staging notices remain obvious but no longer dominate the page.
+.alert {
+  border-radius: 9px;
+  font-size: 0.86rem;
+  line-height: 1.42;
+}
+
+.alert.alert-info {
+  border-color: color-mix(in srgb, var(--sp-accent) 38%, var(--sp-line));
+  background: color-mix(in srgb, var(--sp-accent) 16%, var(--sp-panel-strong));
+  color: var(--primary);
+}
+
+// The header keeps the brand visually anchored to the same rail as desktop
+// navigation while giving icon buttons enough separation to scan individually.
+.d-header .d-header-icons {
+  gap: 0.18rem;
+}
+
+.d-header .d-header-icons .icon {
+  margin-left: 0.06rem;
+}
+
+.d-header .d-header-icons .avatar {
+  box-shadow: 0 0 0 1px var(--sp-line);
+}
+
+// Calm, consistent page furniture across profiles, groups, badges, search,
+// review and category detail pages.
+:is(
+  .user-main,
+  .group-details-container,
+  .groups-boxes,
+  .badges-page,
+  .search-container,
+  .reviewable-container,
+  .category-boxes
+) :is(.user-content, .group-details, .group-box, .badge-card, .fps-result, .reviewable-item, .category-box) {
+  border-color: var(--sp-line);
+  border-radius: var(--sp-radius-small);
+  background: var(--sp-panel-strong);
+  box-shadow: none;
+}
+
+.user-main .nav-pills,
+.group-navigation,
+.user-navigation {
+  border-bottom-color: var(--sp-line);
+}
+
+.user-main .about .details,
+.user-main .about .secondary {
+  background: transparent;
+}
+
+.badge-card:hover,
+.group-box:hover,
+.category-box:hover {
+  border-color: color-mix(in srgb, var(--sp-accent) 42%, var(--sp-line));
+  background: var(--sp-hover);
+}
+
+// Topic reading stays the visual priority. Secondary controls remain available
+// but recede until hovered or keyboard-focused.
+#topic-title {
+  margin-bottom: 0.85rem;
+}
+
+#topic-title h1 {
+  max-width: 64rem;
+  font-size: clamp(1.55rem, 2.1vw, 2.25rem);
+  line-height: 1.16;
+  letter-spacing: -0.028em;
+}
+
+.topic-post article.boxed {
+  background: color-mix(in srgb, var(--sp-panel-strong) 96%, transparent);
+}
+
+.post-controls .actions button:not(:hover, :focus-visible),
+.topic-footer-button:not(:hover, :focus-visible) {
+  color: color-mix(in srgb, var(--sp-muted) 86%, transparent);
+}
+
+.topic-map,
+.small-action,
+.topic-status-info {
+  border-color: var(--sp-line);
+  background: var(--sp-panel);
+}
+
+.timeline-container .topic-timeline .timeline-scrollarea {
+  border-color: color-mix(in srgb, var(--sp-accent) 60%, var(--sp-line));
+}
+
+// Composer and preview surfaces receive an explicit stacking/contrast contract.
+#reply-control {
+  border-color: var(--sp-line);
+  background: var(--sp-popover);
+  box-shadow: 0 -18px 48px rgba(0, 0, 0, 0.34);
+}
+
+#reply-control .reply-area,
+#reply-control .composer-preview,
+#reply-control .d-editor-preview {
+  background: transparent;
+  color: var(--primary);
+}
+
+#reply-control .d-editor-button-bar {
+  border-color: var(--sp-line);
+  background: var(--sp-popover-strong);
+}
+
+#reply-control .d-editor-button-bar .btn:is(:hover, :focus-visible, .active) {
+  background: var(--sp-selected);
+  color: var(--primary);
+}
+
+#reply-control .composer-popup,
+#reply-control .composer-action-menu {
+  border: 1px solid var(--sp-line);
+  border-radius: 9px;
+  background: var(--sp-popover);
+  color: var(--primary);
+  box-shadow: var(--sp-panel-shadow);
+}
+
+// Category column geometry is shared by headings and values so labels line up
+// exactly at every supported desktop width.
+.category-list.with-topics {
+  table-layout: fixed;
+}
+
+.category-list.with-topics :is(th.topics, td.topics) {
+  box-sizing: border-box;
+  text-align: right;
+}
+
+.category-list.with-topics :is(th.latest, td.latest) {
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.sp-category-stat-headings,
+.sp-category-stats {
+  align-items: center;
+}
+
+.sp-latest-activity__body {
+  min-width: 0;
+}
+
+.sp-latest-activity__topic {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-latest-activity__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.18rem 0.45rem;
+}
+
+// Keep inherited category colour visible as one clean marker; Discourse's
+// split parent/child colour wedge is deliberately suppressed everywhere.
+.badge-category.--style-square::before {
+  background-image: none !important;
+}
+
+// Idea Promotions uses five explicit desktop columns: topic, rank, votes,
+// contributors and activity statistics. Headings and values share widths.
+.sp-ideas-page .topic-list th.posters {
+  text-align: center;
+}
+
+.sp-ideas-page .topic-list th.posters::after {
+  color: var(--sp-muted);
+  content: "People";
+  font-size: 0.66rem;
+  font-weight: 760;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sp-ideas-page .topic-list td.posters {
+  padding-left: 1rem;
+}
+
+.sp-ideas-page .topic-list :is(th.posts, th.views, th.activity) {
+  text-align: center;
+}
+
+// Archived/implemented ideas remain easy to distinguish without dimming their
+// title, result or historical discussion metadata.
+.sp-ideas-page .topic-list-item.archived {
+  opacity: 1;
+}
+
+.sp-ideas-page .topic-list-item.archived .main-link a.title {
+  color: var(--primary);
+}
+
+@media (max-width: 999px) {
+  // Native responsive navigation is authoritative on mobile. Hiding the
+  // desktop utility duplicate removes the two adjacent hamburger buttons.
+  .sp-utility-menu {
+    display: none !important;
+  }
+
+  .d-header .d-header-icons {
+    gap: 0.08rem;
+  }
+
+  .alert {
+    padding: 0.72rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  #topic-title h1 {
+    font-size: clamp(1.35rem, 6vw, 1.8rem);
+  }
 }
