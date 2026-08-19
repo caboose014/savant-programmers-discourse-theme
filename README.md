@@ -8,6 +8,8 @@ Forum. It does not depend on a parent theme or an appearance plugin.
 - Default landing page: `Categories`.
 - Desktop category page style: `Categories with Featured Topics`.
 - Subcategories enabled.
+- The permanent desktop sidebar uses a dedicated Home entry that opens the
+  categories landing page.
 - Light and dark colour schemes available to users.
 
 The native category layout remains authoritative for latest-topic titles,

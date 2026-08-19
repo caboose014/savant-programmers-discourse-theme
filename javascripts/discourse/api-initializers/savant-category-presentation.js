@@ -373,6 +373,48 @@ function ensureDesktopSidebar() {
   }
 }
 
+function ensureHomeSidebarLink() {
+  let link = document.querySelector(
+    '.sidebar-section-link[data-link-name="everything"], .sp-home-sidebar-link'
+  );
+  if (!link) {
+    return;
+  }
+
+  if (!link.classList.contains("sp-home-sidebar-link")) {
+    const homeLink = link.cloneNode(true);
+    homeLink.removeAttribute("id");
+    homeLink.classList.remove("ember-view");
+    homeLink.classList.add("sp-home-sidebar-link");
+    homeLink.dataset.linkName = "home";
+    homeLink.setAttribute("href", "/categories");
+    homeLink.setAttribute("title", "Home");
+
+    const label = homeLink.querySelector(".sidebar-section-link-content-text");
+    if (label) {
+      label.textContent = "Home";
+    }
+
+    const icon = homeLink.querySelector(".sidebar-section-link-prefix svg");
+    icon?.classList.remove("d-icon-layer-group");
+    icon?.classList.add("d-icon-house");
+    icon?.querySelector("use")?.setAttribute("href", "#house");
+    homeLink.querySelector(".sidebar-section-link-suffix")?.remove();
+
+    link.parentElement.dataset.listItemName = "home";
+    link.replaceWith(homeLink);
+    link = homeLink;
+  }
+
+  const active = window.location.pathname === "/categories";
+  link.classList.toggle("active", active);
+  if (active) {
+    link.setAttribute("aria-current", "page");
+  } else {
+    link.removeAttribute("aria-current");
+  }
+}
+
 function addLatestActivity(row, category, serializedCategory, site, store) {
   const latestCell = row.querySelector("td.latest");
   const modelTopic = featuredTopic(category);
@@ -485,6 +527,7 @@ export default apiInitializer((api) => {
     });
 
     ensureDesktopSidebar();
+    ensureHomeSidebarLink();
     ensureUtilityMenu();
   };
 

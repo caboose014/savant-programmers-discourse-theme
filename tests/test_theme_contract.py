@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.8.2")
+        self.assertEqual(self.about["theme_version"], "0.8.3")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -68,6 +68,14 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_desktop_categories_only_navigation_and_fixed_sidebar(self):
         self.assertIn("ensureDesktopSidebar()", self.script)
+        self.assertIn("ensureHomeSidebarLink()", self.script)
+        self.assertIn('data-link-name="everything"', self.script)
+        self.assertIn('homeLink.setAttribute("href", "/categories")', self.script)
+        self.assertIn('label.textContent = "Home"', self.script)
+        self.assertIn('setAttribute("href", "#house")', self.script)
+        self.assertIn(".sidebar-section-link-suffix", self.script)
+        self.assertIn("window.location.pathname === \"/categories\"", self.script)
+        self.assertIn("house", self.about["svg_icons"])
         self.assertIn(".header-sidebar-toggle", self.desktop)
         self.assertIn(".nav-item_hot", self.common)
         self.assertIn(".sp-category-stat-headings", self.common)
