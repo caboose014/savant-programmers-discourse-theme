@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.9.2")
+        self.assertEqual(self.about["theme_version"], "0.10.0")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -115,6 +115,19 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("@media (min-width: 1000px)", self.desktop)
         self.assertIn(".sp-utility-menu__panel", self.mobile)
         self.assertIn(".sp-category-stats", self.mobile)
+        self.assertIn(".category-list .featured-topics", self.mobile)
+        self.assertIn("grid-template-columns: 2.4rem minmax(0, 1fr) 4.8rem", self.mobile)
+        self.assertIn(".sp-utility-menu", self.common)
+
+    def test_full_surface_visual_qa_contract(self):
+        self.assertIn(":focus-visible", self.common)
+        self.assertIn("#reply-control .composer-popup", self.common)
+        self.assertIn(".user-main", self.common)
+        self.assertIn(".badge-card", self.common)
+        self.assertIn(".group-box", self.common)
+        self.assertIn(".search-container", self.common)
+        self.assertIn(".sp-ideas-page .topic-list th.posters::after", self.common)
+        self.assertIn(".sp-utility-menu {\n    display: none !important;", self.common)
 
     def test_idea_promotions_native_voting_workflow(self):
         settings = (ROOT / "settings.yml").read_text()
