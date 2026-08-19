@@ -131,6 +131,29 @@ html {
   border-radius: 0;
 }
 
+.sp-ideas-nav {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sp-ideas-nav__link {
+  flex: 1 0 auto;
+  text-align: center;
+}
+
+.sp-ideas-page .topic-list td.sp-idea-votes {
+  display: flex;
+  align-items: center;
+  width: auto;
+  min-width: 0;
+  padding: 0.35rem 0 0;
+  text-align: left;
+}
+
+.sp-ideas-page .topic-list th.sp-idea-votes {
+  display: none;
+}
+
 .cooked {
   font-size: 0.97rem;
 

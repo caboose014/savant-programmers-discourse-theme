@@ -1476,3 +1476,141 @@ blockquote {
 .user-menu.revamped .quick-access-panel li + li {
   border-top: 1px solid color-mix(in srgb, var(--sp-line) 70%, transparent);
 }
+
+// --------------------------------------------------------------------------
+// Idea Promotions: native Topic Voting with a clearer active/complete flow
+// --------------------------------------------------------------------------
+
+.sp-ideas-page .list-controls .nav-pills {
+  display: none !important;
+}
+
+.sp-ideas-nav {
+  display: flex;
+  gap: 0.35rem;
+  margin: 0 0 1rem;
+  padding: 0.35rem;
+  width: fit-content;
+  border: 1px solid var(--sp-line);
+  border-radius: 10px;
+  background: var(--sp-panel-strong);
+  box-shadow: var(--sp-soft-shadow);
+}
+
+.sp-ideas-nav__link {
+  padding: 0.58rem 0.85rem;
+  border-radius: 7px;
+  color: var(--sp-muted);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sp-ideas-nav__link:is(:hover, :focus-visible) {
+  background: var(--sp-hover);
+  color: var(--primary);
+}
+
+.sp-ideas-nav__link.active {
+  background: var(--sp-selected);
+  color: var(--primary);
+  box-shadow: inset 0 -2px 0 var(--sp-accent);
+}
+
+.sp-ideas-page .topic-list th.sp-idea-votes,
+.sp-ideas-page .topic-list td.sp-idea-votes {
+  width: 7.6rem;
+  min-width: 7.6rem;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  text-align: center;
+}
+
+.sp-ideas-page .topic-list th.sp-idea-votes {
+  color: var(--sp-muted);
+  font-size: 0.68rem;
+  font-weight: 760;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sp-idea-vote-link {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.28rem;
+  min-width: 4.4rem;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--sp-accent) 34%, var(--sp-line));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sp-accent) 10%, var(--sp-panel-elevated));
+  color: var(--primary) !important;
+  text-decoration: none;
+}
+
+.sp-idea-vote-link:is(:hover, :focus-visible) {
+  border-color: var(--sp-accent);
+  background: color-mix(in srgb, var(--sp-accent) 20%, var(--sp-panel-elevated));
+}
+
+.sp-idea-vote-count {
+  font-size: 1.05rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-idea-vote-label {
+  color: var(--sp-muted);
+  font-size: 0.66rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.sp-idea-vote-empty {
+  color: var(--sp-muted);
+}
+
+.sp-idea-rank {
+  display: inline-grid;
+  place-items: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-right: 0.38rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 0.76rem;
+  font-weight: 850;
+  vertical-align: middle;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 13%, transparent);
+}
+
+.sp-idea-rank--1 { color: #ffd24a; }
+.sp-idea-rank--2 { color: #d8e0e8; }
+.sp-idea-rank--3 { color: #e69a55; }
+
+.topic-list-item[data-sp-idea-rank="1"] {
+  box-shadow: inset 3px 0 0 #ffd24a;
+}
+
+.topic-list-item[data-sp-idea-rank="2"] {
+  box-shadow: inset 3px 0 0 #d8e0e8;
+}
+
+.topic-list-item[data-sp-idea-rank="3"] {
+  box-shadow: inset 3px 0 0 #e69a55;
+}
+
+.sp-idea-implemented {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.55rem;
+  padding: 0.18rem 0.48rem;
+  border: 1px solid color-mix(in srgb, var(--success) 60%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--success) 16%, transparent);
+  color: var(--success);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
