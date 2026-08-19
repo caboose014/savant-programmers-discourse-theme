@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.10.3")
+        self.assertEqual(self.about["theme_version"], "0.10.4")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -118,7 +118,10 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn(".category-list .featured-topics", self.mobile)
         self.assertIn(".category-list .latest-topic-list-item", self.mobile)
         self.assertIn(".category-list tr.category-topic-link", self.mobile)
+        self.assertIn(".category-list tr.category-description", self.mobile)
+        self.assertIn(".category-list .category-stat", self.mobile)
         self.assertIn(".sp-idea-mobile-meta", self.mobile)
+        self.assertIn(".topic-item-metadata > .pull-right", self.mobile)
         self.assertIn('a[aria-label*="latest poster"]', self.mobile)
         self.assertIn(".sp-utility-menu", self.common)
 
