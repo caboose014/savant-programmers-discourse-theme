@@ -1614,3 +1614,34 @@ blockquote {
   text-transform: uppercase;
   vertical-align: middle;
 }
+
+.sp-idea-implemented-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0.75rem 0 1.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--success) 58%, var(--sp-line));
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--success) 13%, var(--sp-panel-strong));
+  color: var(--primary);
+}
+
+.sp-idea-implemented-notice__title {
+  color: var(--success);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.sp-idea-implemented-notice__detail {
+  color: var(--sp-muted);
+  font-size: 0.82rem;
+}
+
+// Topic Voting retains the historical result when an idea is archived and
+// releases those votes back to members asynchronously. Do not present the
+// cast/remove action on an implemented topic; the count remains inspectable.
+.sp-idea-topic--implemented .voting-wrapper__button {
+  display: none !important;
+}

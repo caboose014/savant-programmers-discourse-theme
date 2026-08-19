@@ -506,6 +506,49 @@ function ensureIdeaNavigation() {
   });
 }
 
+function ensureImplementedIdeaTopicState() {
+  const base = ideaCategoryPath();
+  const root = document.documentElement;
+  const categoryLink = base
+    ? document.querySelector(`.topic-category a[href="${base}"]`)
+    : null;
+  const isIdeaTopic = Boolean(
+    categoryLink && window.location.pathname.startsWith("/t/")
+  );
+  const isImplemented = Boolean(
+    isIdeaTopic && document.querySelector(".topic-status.--archived")
+  );
+
+  root.classList.toggle("sp-idea-topic", isIdeaTopic);
+  root.classList.toggle("sp-idea-topic--implemented", isImplemented);
+
+  const existing = document.querySelector(".sp-idea-implemented-notice");
+  if (!isImplemented) {
+    existing?.remove();
+    return;
+  }
+  if (existing) {
+    return;
+  }
+
+  const title = document.querySelector("#topic-title .title-wrapper, .title-wrapper");
+  if (!title) {
+    return;
+  }
+
+  const notice = element("div", "sp-idea-implemented-notice");
+  notice.setAttribute("role", "status");
+  notice.append(
+    element("strong", "sp-idea-implemented-notice__title", "Implemented"),
+    element(
+      "span",
+      "sp-idea-implemented-notice__detail",
+      "Voting is closed. The historical vote total is retained."
+    )
+  );
+  title.insertAdjacentElement("afterend", notice);
+}
+
 function addImplementedBadge(row) {
   const titleLine = row.querySelector(".link-top-line");
   if (!titleLine || titleLine.querySelector(".sp-idea-implemented")) {
@@ -725,6 +768,7 @@ export default apiInitializer((api) => {
     ensureDesktopSidebar();
     ensureHomeSidebarLink();
     ensureUtilityMenu();
+    ensureImplementedIdeaTopicState();
     if (ensureIdeaDefaultView()) {
       return;
     }

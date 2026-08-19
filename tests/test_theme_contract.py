@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.9.0")
+        self.assertEqual(self.about["theme_version"], "0.9.1")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -127,10 +127,15 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("sp-idea-votes", self.script)
         self.assertIn("sp-idea-rank--${rank}", self.script)
         self.assertIn('"Implemented"', self.script)
+        self.assertIn("ensureImplementedIdeaTopicState()", self.script)
+        self.assertIn('document.querySelector(".topic-status.--archived")', self.script)
+        self.assertIn("Voting is closed. The historical vote total is retained.", self.script)
         self.assertIn(".sp-ideas-nav", self.common)
         self.assertIn(".sp-idea-vote-link", self.common)
         self.assertIn(".sp-idea-rank--1", self.common)
         self.assertIn(".sp-idea-implemented", self.common)
+        self.assertIn(".sp-idea-implemented-notice", self.common)
+        self.assertIn(".sp-idea-topic--implemented .voting-wrapper__button", self.common)
         self.assertIn(".sp-ideas-page .topic-list td.sp-idea-votes", self.mobile)
 
 
