@@ -73,7 +73,9 @@
 // complete topic list.
 .category-list tbody tr > td.latest,
 .category-list .featured-topics,
-.category-list .featured-topic {
+.category-list .featured-topic,
+.category-list .latest-topic-list-item,
+.category-list.with-topics tbody > tr:not(.category-list-item) {
   display: none !important;
 }
 
@@ -179,9 +181,45 @@ html {
 .sp-ideas-page .topic-list tbody tr.topic-list-item {
   display: grid !important;
   grid-template-columns: 2.4rem minmax(0, 1fr) 4.8rem;
+  box-sizing: border-box;
+  width: 100% !important;
   gap: 0.25rem 0.55rem;
   padding: 0.78rem;
   border-bottom: 1px solid var(--sp-line);
+}
+
+// Discourse's mobile topic table retains intrinsic desktop column sizing and
+// places the latest-poster avatar inside the title cell. Both behaviours can
+// collapse an Ideas title to a few pixels, producing one letter per line.
+.sp-ideas-page .topic-list,
+.sp-ideas-page .topic-list tbody {
+  display: block;
+  width: 100%;
+}
+
+.sp-ideas-page .topic-list td.main-link {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.sp-ideas-page .topic-list td.main-link :is(
+  .link-top-line,
+  .topic-list-data,
+  .topic-list-item-separator
+) {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+}
+
+.sp-ideas-page .topic-list :is(
+  td.posters,
+  .topic-list-avatar,
+  .pull-left,
+  a[aria-label*="latest poster"]
+) {
+  display: none !important;
 }
 
 .sp-ideas-page .topic-list td {
