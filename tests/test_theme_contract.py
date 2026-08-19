@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.8.3")
+        self.assertEqual(self.about["theme_version"], "0.8.4")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -55,6 +55,9 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn('.is-highlighted', self.common)
         self.assertIn('[aria-selected="true"]', self.common)
         self.assertIn(".user-menu .quick-access-panel", self.common)
+        self.assertIn("#reply-control .composer-actions-trigger:is(", self.common)
+        self.assertIn('[aria-expanded="true"]', self.common)
+        self.assertIn(":is(.d-icon, .d-button-label)", self.common)
 
     def test_compact_utility_menu_is_accessible(self):
         self.assertIn('aria-label", "Navigation menu', self.script)
@@ -78,6 +81,9 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("house", self.about["svg_icons"])
         self.assertIn(".header-sidebar-toggle", self.desktop)
         self.assertIn(".nav-item_hot", self.common)
+        self.assertIn(
+            ".navigation-categories .list-controls .nav-pills", self.common
+        )
         self.assertIn(".sp-category-stat-headings", self.common)
 
     def test_live_qa_resolves_posters_and_compacts_search(self):
