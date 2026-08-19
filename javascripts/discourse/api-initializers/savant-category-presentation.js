@@ -584,20 +584,46 @@ function decorateIdeaRows() {
   const ranked = [];
 
   table.querySelectorAll("tbody tr.topic-list-item").forEach((row, index) => {
-    let rankCell = row.querySelector("td.sp-idea-rank-column");
-    let cell = row.querySelector("td.sp-idea-votes");
+    const posterCell = row.querySelector("td.posters");
+    const collapsedMobileCell = posterCell
+      ? null
+      : row.querySelector(":scope > td.topic-list-data:only-child");
+    let mobileMeta = collapsedMobileCell?.querySelector(".sp-idea-mobile-meta");
+    if (collapsedMobileCell && !mobileMeta) {
+      mobileMeta = element("div", "sp-idea-mobile-meta");
+      collapsedMobileCell
+        .querySelector(".topic-item-metadata")
+        ?.prepend(mobileMeta);
+    }
+
+    let rankCell = row.querySelector(".sp-idea-rank-column");
+    let cell = row.querySelector(".sp-idea-votes");
     const voteLink = row.querySelector(".list-vote-count");
     const match = voteLink?.textContent?.match(/\d[\d,]*/);
     const votes = match ? Number(match[0].replaceAll(",", "")) : null;
 
     if (!rankCell) {
-      rankCell = element("td", "num topic-list-data sp-idea-rank-column");
-      row.querySelector("td.posters")?.before(rankCell);
+      rankCell = element(
+        posterCell ? "td" : "span",
+        "num topic-list-data sp-idea-rank-column"
+      );
+      if (posterCell) {
+        posterCell.before(rankCell);
+      } else {
+        mobileMeta?.append(rankCell);
+      }
     }
 
     if (!cell) {
-      cell = element("td", "num topic-list-data sp-idea-votes");
-      row.querySelector("td.posters")?.before(cell);
+      cell = element(
+        posterCell ? "td" : "span",
+        "num topic-list-data sp-idea-votes"
+      );
+      if (posterCell) {
+        posterCell.before(cell);
+      } else {
+        mobileMeta?.append(cell);
+      }
     }
     cell.querySelector(".sp-idea-rank")?.remove();
 
@@ -640,7 +666,7 @@ function decorateIdeaRows() {
   }
 
   table.querySelectorAll("tbody tr.topic-list-item").forEach((row) => {
-    const rankCell = row.querySelector("td.sp-idea-rank-column");
+    const rankCell = row.querySelector(".sp-idea-rank-column");
     const rank = rankByRow.get(row);
     const marker = rankCell?.querySelector(".sp-idea-rank");
     const empty = rankCell?.querySelector(".sp-idea-rank-empty");

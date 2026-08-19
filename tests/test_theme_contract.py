@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.10.2")
+        self.assertEqual(self.about["theme_version"], "0.10.3")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -117,8 +117,8 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn(".sp-category-stats", self.mobile)
         self.assertIn(".category-list .featured-topics", self.mobile)
         self.assertIn(".category-list .latest-topic-list-item", self.mobile)
-        self.assertIn("display: flex !important", self.mobile)
-        self.assertIn("flex: 1 1 0 !important", self.mobile)
+        self.assertIn(".category-list tr.category-topic-link", self.mobile)
+        self.assertIn(".sp-idea-mobile-meta", self.mobile)
         self.assertIn('a[aria-label*="latest poster"]', self.mobile)
         self.assertIn(".sp-utility-menu", self.common)
 
@@ -143,6 +143,7 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("sp-idea-votes", self.script)
         self.assertIn("sp-idea-rank-column", self.script)
         self.assertIn("sp-idea-rank--${rank}", self.script)
+        self.assertIn('element("div", "sp-idea-mobile-meta")', self.script)
         self.assertIn('"Implemented"', self.script)
         self.assertIn("ensureImplementedIdeaTopicState()", self.script)
         self.assertIn('document.querySelector(".topic-status.--archived")', self.script)
@@ -154,7 +155,7 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn(".sp-idea-implemented", self.common)
         self.assertIn(".sp-idea-implemented-notice", self.common)
         self.assertIn(".sp-idea-topic--implemented .voting-wrapper__button", self.common)
-        self.assertIn(".sp-ideas-page .topic-list td.sp-idea-votes", self.mobile)
+        self.assertIn(".sp-idea-mobile-meta .sp-idea-votes", self.mobile)
 
 
 if __name__ == "__main__":
