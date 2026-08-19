@@ -1291,3 +1291,155 @@ blockquote {
     background-image: none;
   }
 }
+
+// --------------------------------------------------------------------------
+// v0.8 navigation and category-table refinement
+// --------------------------------------------------------------------------
+
+// Categories are the forum's single primary browsing view. Search and direct
+// links still make every topic reachable, while the noisy alternate list-view
+// tabs are removed from the primary navigation surface.
+.list-controls .nav-pills {
+  :is(.nav-item_latest, .nav-item_new, .nav-item_hot) {
+    display: none !important;
+  }
+
+  .nav-item_categories > a {
+    min-height: 2.45rem;
+    padding: 0.58rem 0.95rem;
+    border: 1px solid color-mix(in srgb, var(--sp-accent) 52%, var(--sp-line));
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--sp-accent) 13%, var(--sp-panel-elevated));
+    color: var(--primary);
+    font-weight: 720;
+  }
+
+  .nav-item_categories > a:is(:hover, :focus-visible, .active) {
+    border-color: var(--sp-accent);
+    background: color-mix(in srgb, var(--sp-accent) 24%, var(--sp-panel-elevated));
+    box-shadow: inset 0 -2px 0 var(--sp-accent);
+  }
+}
+
+// Discourse represents parent/child colours as a split square. This theme's
+// hierarchy already provides the parent context, so show one inherited parent
+// colour instead of a competing two-colour marker.
+.category-list [data-sp-parent-category]
+  .badge-category.--has-parent.--style-square::before {
+  background: var(--sp-category-accent, var(--sp-accent)) !important;
+  background-image: none !important;
+}
+
+.category-list thead th.topics,
+.category-list td.topics {
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.category-list thead th.latest,
+.category-list td.latest {
+  padding-right: 1.05rem;
+  padding-left: 1.25rem;
+}
+
+.sp-category-stat-headings,
+.sp-category-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(4.2rem, 1fr));
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.sp-category-stat-headings {
+  color: var(--sp-muted);
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.075em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.sp-category-stats {
+  justify-content: stretch;
+}
+
+.sp-latest-activity {
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 0.95rem;
+}
+
+.sp-latest-activity__avatar-link {
+  margin-left: 0.1rem;
+}
+
+// Turn the native vertical account-menu icon rail into a calm horizontal
+// switcher. The notification content receives the full width beneath it.
+.user-menu.revamped {
+  width: min(31rem, calc(100vw - 1.5rem));
+  max-width: min(31rem, calc(100vw - 1.5rem));
+  overflow: hidden;
+}
+
+.user-menu.revamped .panel-body-contents {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.user-menu.revamped .menu-tabs-container {
+  display: flex;
+  order: -1;
+  width: 100%;
+  padding: 0.42rem;
+  border-right: 0;
+  border-bottom: 1px solid var(--sp-line);
+  background: var(--sp-popover-strong);
+}
+
+.user-menu.revamped :is(.top-tabs, .bottom-tabs) {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 0.2rem;
+}
+
+.user-menu.revamped .bottom-tabs {
+  flex: 0 0 auto;
+  margin-left: 0.3rem;
+  padding-left: 0.42rem;
+  border-left: 1px solid var(--sp-line);
+}
+
+.user-menu.revamped .user-menu-tab {
+  display: inline-grid;
+  flex: 1 1 0;
+  place-items: center;
+  min-width: 2.55rem;
+  min-height: 2.45rem;
+  border-radius: 7px;
+  color: var(--sp-muted);
+}
+
+.user-menu.revamped .user-menu-tab:is(:hover, :focus-visible, .active) {
+  background: var(--sp-selected) !important;
+  color: var(--primary) !important;
+}
+
+.user-menu.revamped .user-menu-tab.active {
+  box-shadow: inset 0 -2px 0 var(--sp-accent);
+}
+
+.user-menu.revamped .quick-access-panel {
+  width: 100%;
+  min-width: 0;
+  max-height: min(31rem, calc(100vh - 9rem));
+}
+
+.user-menu.revamped .quick-access-panel li > a {
+  min-height: 3rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 7px;
+}
+
+.user-menu.revamped .quick-access-panel li + li {
+  border-top: 1px solid color-mix(in srgb, var(--sp-line) 70%, transparent);
+}
