@@ -26,6 +26,10 @@ archived_category_slug:
   default: "archived"
   type: string
 
+idea_promotions_category_path:
+  default: "/c/information/idea-promotions/23"
+  type: string
+
 savant_news_category_slug:
   default: "savant-news"
   type: string

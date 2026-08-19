@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.8.4")
+        self.assertEqual(self.about["theme_version"], "0.9.0")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -115,6 +115,23 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("@media (min-width: 1000px)", self.desktop)
         self.assertIn(".sp-utility-menu__panel", self.mobile)
         self.assertIn(".sp-category-stats", self.mobile)
+
+    def test_idea_promotions_native_voting_workflow(self):
+        settings = (ROOT / "settings.yml").read_text()
+        self.assertIn("idea_promotions_category_path", settings)
+        self.assertIn('order=votes&status=open', self.script)
+        self.assertIn('order=votes&status=archived', self.script)
+        self.assertIn('state=my_votes', self.script)
+        self.assertIn("ensureIdeaDefaultView()", self.script)
+        self.assertIn("decorateIdeaRows()", self.script)
+        self.assertIn("sp-idea-votes", self.script)
+        self.assertIn("sp-idea-rank--${rank}", self.script)
+        self.assertIn('"Implemented"', self.script)
+        self.assertIn(".sp-ideas-nav", self.common)
+        self.assertIn(".sp-idea-vote-link", self.common)
+        self.assertIn(".sp-idea-rank--1", self.common)
+        self.assertIn(".sp-idea-implemented", self.common)
+        self.assertIn(".sp-ideas-page .topic-list td.sp-idea-votes", self.mobile)
 
 
 if __name__ == "__main__":

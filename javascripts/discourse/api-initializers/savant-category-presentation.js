@@ -415,6 +415,202 @@ function ensureHomeSidebarLink() {
   }
 }
 
+function ideaCategoryPath() {
+  const configured = String(settings.idea_promotions_category_path || "").trim();
+  if (!configured) {
+    return null;
+  }
+  const withLeadingSlash = configured.startsWith("/") ? configured : `/${configured}`;
+  return withLeadingSlash.replace(/\/$/, "");
+}
+
+function isIdeaCategoryPage() {
+  const base = ideaCategoryPath();
+  return Boolean(base && (window.location.pathname === base || window.location.pathname.startsWith(`${base}/`)));
+}
+
+function ensureIdeaDefaultView() {
+  if (!isIdeaCategoryPage()) {
+    return false;
+  }
+
+  const query = new URLSearchParams(window.location.search);
+  const hasExplicitView = query.has("status") || query.has("state");
+  const hasVoteOrder = query.get("order") === "votes";
+
+  if (!hasExplicitView || (hasVoteOrder && !query.has("status") && !query.has("state"))) {
+    const base = ideaCategoryPath();
+    window.location.replace(`${base}/l/latest?order=votes&status=open`);
+    return true;
+  }
+
+  return false;
+}
+
+function ideaViewUrl(view) {
+  const base = ideaCategoryPath();
+  if (view === "implemented") {
+    return `${base}/l/latest?order=votes&status=archived`;
+  }
+  if (view === "mine") {
+    return `${base}/l/latest?state=my_votes`;
+  }
+  return `${base}/l/latest?order=votes&status=open`;
+}
+
+function ensureIdeaNavigation() {
+  if (!isIdeaCategoryPage()) {
+    document.documentElement.classList.remove("sp-ideas-page");
+    document.querySelector(".sp-ideas-nav")?.remove();
+    return;
+  }
+
+  document.documentElement.classList.add("sp-ideas-page");
+  const query = new URLSearchParams(window.location.search);
+  const current = query.get("status") === "archived"
+    ? "implemented"
+    : query.get("state") === "my_votes"
+      ? "mine"
+      : "active";
+
+  let nav = document.querySelector(".sp-ideas-nav");
+  if (!nav) {
+    const controls = document.querySelector(".list-controls");
+    if (!controls) {
+      return;
+    }
+    nav = element("nav", "sp-ideas-nav");
+    nav.setAttribute("aria-label", "Idea Promotions views");
+    controls.insertAdjacentElement("afterend", nav);
+
+    for (const [view, label] of [
+      ["active", "Active Ideas"],
+      ["mine", "My Votes"],
+      ["implemented", "Implemented"],
+    ]) {
+      const link = element("a", "sp-ideas-nav__link", label);
+      link.href = ideaViewUrl(view);
+      link.dataset.view = view;
+      nav.append(link);
+    }
+  }
+
+  nav.querySelectorAll(".sp-ideas-nav__link").forEach((link) => {
+    const active = link.dataset.view === current;
+    link.classList.toggle("active", active);
+    if (active) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+function addImplementedBadge(row) {
+  const titleLine = row.querySelector(".link-top-line");
+  if (!titleLine || titleLine.querySelector(".sp-idea-implemented")) {
+    return;
+  }
+  titleLine.append(element("span", "sp-idea-implemented", "Implemented"));
+}
+
+function decorateIdeaRows() {
+  if (!isIdeaCategoryPage()) {
+    return;
+  }
+
+  const table = document.querySelector("table.topic-list");
+  if (!table) {
+    return;
+  }
+
+  const headerRow = table.querySelector("thead tr");
+  if (headerRow && !headerRow.querySelector("th.sp-idea-votes")) {
+    const heading = element("th", "sp-idea-votes", "Votes");
+    heading.scope = "col";
+    headerRow.querySelector("th.posters")?.before(heading);
+  }
+
+  const query = new URLSearchParams(window.location.search);
+  const implementedView = query.get("status") === "archived";
+  const ranked = [];
+
+  table.querySelectorAll("tbody tr.topic-list-item").forEach((row, index) => {
+    let cell = row.querySelector("td.sp-idea-votes");
+    const voteLink = row.querySelector(".list-vote-count");
+    const match = voteLink?.textContent?.match(/\d[\d,]*/);
+    const votes = match ? Number(match[0].replaceAll(",", "")) : null;
+
+    if (!cell) {
+      cell = element("td", "num topic-list-data sp-idea-votes");
+      row.querySelector("td.posters")?.before(cell);
+    }
+
+    if (!cell.dataset.ready) {
+      cell.dataset.ready = "true";
+      if (voteLink && Number.isFinite(votes)) {
+        const list = voteLink.closest("ul.discourse-tags");
+        voteLink.closest("li")?.remove();
+        if (list && !list.children.length) {
+          list.remove();
+        }
+        voteLink.classList.add("sp-idea-vote-link");
+        voteLink.textContent = "";
+        voteLink.append(
+          element("span", "sp-idea-vote-count", votes.toLocaleString()),
+          element("span", "sp-idea-vote-label", votes === 1 ? "vote" : "votes")
+        );
+        cell.append(voteLink);
+        row.dataset.spIdeaVotes = String(votes);
+      } else {
+        cell.append(element("span", "sp-idea-vote-empty", "—"));
+      }
+    }
+
+    if (!row.classList.contains("pinned") && Number.isFinite(votes) && votes > 0) {
+      ranked.push({ row, cell, votes, index });
+    }
+
+    if (implementedView || row.classList.contains("archived")) {
+      addImplementedBadge(row);
+    }
+  });
+
+  const rankByRow = new Map();
+  if (!implementedView) {
+    ranked
+      .sort((a, b) => b.votes - a.votes || a.index - b.index)
+      .slice(0, 3)
+      .forEach(({ row }, index) => rankByRow.set(row, index + 1));
+  }
+
+  table.querySelectorAll("tbody tr.topic-list-item").forEach((row) => {
+    const cell = row.querySelector("td.sp-idea-votes");
+    const rank = rankByRow.get(row);
+    const marker = cell?.querySelector(".sp-idea-rank");
+
+    if (!rank) {
+      marker?.remove();
+      delete row.dataset.spIdeaRank;
+      return;
+    }
+    if (marker?.dataset.rank === String(rank)) {
+      return;
+    }
+
+    marker?.remove();
+    const replacement = element(
+      "span",
+      `sp-idea-rank sp-idea-rank--${rank}`,
+      String(rank)
+    );
+    replacement.dataset.rank = String(rank);
+    replacement.setAttribute("aria-label", `Rank ${rank}`);
+    cell.prepend(replacement);
+    row.dataset.spIdeaRank = String(rank);
+  });
+}
+
 function addLatestActivity(row, category, serializedCategory, site, store) {
   const latestCell = row.querySelector("td.latest");
   const modelTopic = featuredTopic(category);
@@ -529,6 +725,11 @@ export default apiInitializer((api) => {
     ensureDesktopSidebar();
     ensureHomeSidebarLink();
     ensureUtilityMenu();
+    if (ensureIdeaDefaultView()) {
+      return;
+    }
+    ensureIdeaNavigation();
+    decorateIdeaRows();
   };
 
   const scheduleDecorate = () => {
