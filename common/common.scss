@@ -1325,7 +1325,7 @@ blockquote {
 // hierarchy already provides the parent context, so show one inherited parent
 // colour instead of a competing two-colour marker.
 .category-list [data-sp-parent-category]
-  .badge-category.--has-parent.--style-square::before {
+  .badge-category.--style-square::before {
   background: var(--sp-category-accent, var(--sp-accent)) !important;
   background-image: none !important;
 }
@@ -1345,8 +1345,8 @@ blockquote {
 .sp-category-stat-headings,
 .sp-category-stats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(4.2rem, 1fr));
-  gap: 0.45rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
   width: 100%;
 }
 
@@ -1363,6 +1363,10 @@ blockquote {
   justify-content: stretch;
 }
 
+.sp-category-stat {
+  min-width: 0;
+}
+
 .sp-latest-activity {
   grid-template-columns: 40px minmax(0, 1fr);
   gap: 0.95rem;
@@ -1375,6 +1379,7 @@ blockquote {
 // Turn the native vertical account-menu icon rail into a calm horizontal
 // switcher. The notification content receives the full width beneath it.
 .user-menu.revamped {
+  height: auto !important;
   width: min(31rem, calc(100vw - 1.5rem));
   max-width: min(31rem, calc(100vw - 1.5rem));
   overflow: hidden;
@@ -1383,22 +1388,31 @@ blockquote {
 .user-menu.revamped .panel-body-contents {
   display: flex;
   flex-direction: column;
+  height: auto !important;
   min-width: 0;
+}
+
+.user-menu.revamped .panel-body {
+  height: auto !important;
 }
 
 .user-menu.revamped .menu-tabs-container {
   display: flex;
+  flex: 0 0 auto;
+  flex-direction: row !important;
   order: -1;
   width: 100%;
   padding: 0.42rem;
   border-right: 0;
   border-bottom: 1px solid var(--sp-line);
   background: var(--sp-popover-strong);
+  overflow: visible;
 }
 
 .user-menu.revamped :is(.top-tabs, .bottom-tabs) {
   display: flex;
   flex: 1 1 auto;
+  flex-direction: row !important;
   gap: 0.2rem;
 }
 
@@ -1415,6 +1429,7 @@ blockquote {
   place-items: center;
   min-width: 2.55rem;
   min-height: 2.45rem;
+  width: auto !important;
   border-radius: 7px;
   color: var(--sp-muted);
 }
@@ -1432,6 +1447,7 @@ blockquote {
   width: 100%;
   min-width: 0;
   max-height: min(31rem, calc(100vh - 9rem));
+  overflow-y: auto;
 }
 
 .user-menu.revamped .quick-access-panel li > a {
