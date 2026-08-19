@@ -80,13 +80,14 @@ those fields are unavailable. Version 0.6 also introduces a consistent
 near-black surface system, compact welcome/search treatment, utility navigation
 popover, model-backed category counts and explicit selected-row contrast rules.
 
-Version 0.10.1 adds the first full-surface visual QA contract: concise mobile
+Version 0.10.2 adds the first full-surface visual QA contract: concise mobile
 category cards, a dedicated mobile Idea Promotions rank/topic/vote grid,
 aligned desktop information columns, consistent composer/form/popover contrast,
 visible keyboard focus, and coordinated profile, group, badge, search and
 review surfaces. It also suppresses Discourse's repeated mobile featured-topic
-rows, prevents mobile Idea titles collapsing beside the latest-poster avatar,
-and gives the desktop Topics/Posts headings enough room to remain distinct.
+rows, uses a compact flex row so mobile Idea titles cannot collapse beside the
+latest-poster avatar, and gives the desktop Topics/Posts headings enough room
+to remain distinct.
 These rules remain theme-only and can be disabled without changing Discourse
 data or core code.
 
