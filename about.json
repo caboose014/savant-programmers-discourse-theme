@@ -4,7 +4,7 @@
   "about_url": "https://savantprogrammers.j14.co",
   "license_url": "https://opensource.org/license/mit",
   "authors": "Savant Programmers Community",
-  "theme_version": "0.10.0",
+  "theme_version": "0.10.1",
   "minimum_discourse_version": "3.5.0.beta1",
   "svg_icons": "list|magnifying-glass|tag|circle-info|book|users|certificate|filter|house",
   "assets": {
