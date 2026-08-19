@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.10.4")
+        self.assertEqual(self.about["theme_version"], "0.10.5")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -113,6 +113,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_responsive_surfaces_exist(self):
         self.assertIn("@media (min-width: 1000px)", self.desktop)
+        self.assertIn("th.topics", self.desktop)
         self.assertIn(".sp-utility-menu__panel", self.mobile)
         self.assertIn(".sp-category-stats", self.mobile)
         self.assertIn(".category-list .featured-topics", self.mobile)
