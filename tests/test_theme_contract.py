@@ -20,7 +20,7 @@ class ThemeContractTest(unittest.TestCase):
 
     def test_theme_is_standalone_dark_first(self):
         self.assertFalse(self.about["component"])
-        self.assertEqual(self.about["theme_version"], "0.9.1")
+        self.assertEqual(self.about["theme_version"], "0.9.2")
         dark = self.about["color_schemes"]["Savant Forum Dark"]
         self.assertEqual(dark["secondary"], "0b0b0e")
         self.assertEqual(dark["primary"], "f4f4f5")
@@ -125,6 +125,7 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn("ensureIdeaDefaultView()", self.script)
         self.assertIn("decorateIdeaRows()", self.script)
         self.assertIn("sp-idea-votes", self.script)
+        self.assertIn("sp-idea-rank-column", self.script)
         self.assertIn("sp-idea-rank--${rank}", self.script)
         self.assertIn('"Implemented"', self.script)
         self.assertIn("ensureImplementedIdeaTopicState()", self.script)
@@ -133,6 +134,7 @@ class ThemeContractTest(unittest.TestCase):
         self.assertIn(".sp-ideas-nav", self.common)
         self.assertIn(".sp-idea-vote-link", self.common)
         self.assertIn(".sp-idea-rank--1", self.common)
+        self.assertIn("th.sp-idea-rank-column", self.common)
         self.assertIn(".sp-idea-implemented", self.common)
         self.assertIn(".sp-idea-implemented-notice", self.common)
         self.assertIn(".sp-idea-topic--implemented .voting-wrapper__button", self.common)

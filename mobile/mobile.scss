@@ -141,6 +141,7 @@ html {
   text-align: center;
 }
 
+.sp-ideas-page .topic-list td.sp-idea-rank-column,
 .sp-ideas-page .topic-list td.sp-idea-votes {
   display: flex;
   align-items: center;
@@ -150,8 +151,14 @@ html {
   text-align: left;
 }
 
+.sp-ideas-page .topic-list th.sp-idea-rank-column,
 .sp-ideas-page .topic-list th.sp-idea-votes {
   display: none;
+}
+
+.sp-ideas-page .topic-list td.sp-idea-rank-column {
+  float: left;
+  margin-right: 0.45rem;
 }
 
 .sp-idea-implemented-notice {
