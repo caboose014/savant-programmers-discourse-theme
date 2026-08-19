@@ -75,7 +75,9 @@
 .category-list .featured-topics,
 .category-list .featured-topic,
 .category-list .latest-topic-list-item,
-.category-list tr.category-topic-link {
+.category-list tr.category-topic-link,
+.category-list tr.category-description,
+.category-list .category-stat {
   display: none !important;
 }
 
@@ -223,6 +225,13 @@ html {
   .topic-list-avatar,
   .pull-left,
   a[aria-label*="latest poster"]
+) {
+  display: none !important;
+}
+
+.sp-ideas-page .topic-list :is(
+  .topic-item-metadata > .pull-right,
+  .topic-item-stats
 ) {
   display: none !important;
 }
