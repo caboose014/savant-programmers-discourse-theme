@@ -1325,7 +1325,9 @@ blockquote {
 // hierarchy already provides the parent context, so show one inherited parent
 // colour instead of a competing two-colour marker.
 .category-list [data-sp-parent-category]
-  .badge-category.--style-square::before {
+  .badge-category.--style-square::before,
+.category-list
+  .badge-category[data-sp-parent-category].--style-square::before {
   background: var(--sp-category-accent, var(--sp-accent)) !important;
   background-image: none !important;
 }
@@ -1352,9 +1354,9 @@ blockquote {
 
 .sp-category-stat-headings {
   color: var(--sp-muted);
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 720;
-  letter-spacing: 0.075em;
+  letter-spacing: 0.045em;
   text-align: right;
   text-transform: uppercase;
 }
@@ -1365,6 +1367,10 @@ blockquote {
 
 .sp-category-stat {
   min-width: 0;
+}
+
+.sp-category-stat__label {
+  display: none;
 }
 
 .sp-latest-activity {
