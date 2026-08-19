@@ -800,6 +800,26 @@ a:focus-visible {
   color: var(--primary);
 }
 
+// Discourse gives the expanded composer action trigger its own pale native
+// surface. In dark mode that made its inherited light label and icons vanish.
+// Keep hover, keyboard focus, and the open-menu state on the same explicit
+// high-contrast surface in both colour schemes.
+#reply-control .composer-actions-trigger:is(
+    :hover,
+    :focus-visible,
+    .-expanded,
+    [aria-expanded="true"]
+  ) {
+  border-color: color-mix(in srgb, var(--sp-accent) 48%, var(--sp-line)) !important;
+  background: var(--sp-selected) !important;
+  color: var(--primary) !important;
+  box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--sp-accent) 72%, transparent);
+
+  :is(.d-icon, .d-button-label) {
+    color: inherit !important;
+  }
+}
+
 // One contrast contract for native menus, select-kits, modals, autocomplete,
 // user notifications and the theme utility menu. This explicitly fixes the
 // selected-row/text collision found during the live audit.
@@ -1303,22 +1323,13 @@ blockquote {
   :is(.nav-item_latest, .nav-item_new, .nav-item_hot) {
     display: none !important;
   }
+}
 
-  .nav-item_categories > a {
-    min-height: 2.45rem;
-    padding: 0.58rem 0.95rem;
-    border: 1px solid color-mix(in srgb, var(--sp-accent) 52%, var(--sp-line));
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--sp-accent) 13%, var(--sp-panel-elevated));
-    color: var(--primary);
-    font-weight: 720;
-  }
-
-  .nav-item_categories > a:is(:hover, :focus-visible, .active) {
-    border-color: var(--sp-accent);
-    background: color-mix(in srgb, var(--sp-accent) 24%, var(--sp-panel-elevated));
-    box-shadow: inset 0 -2px 0 var(--sp-accent);
-  }
+// The categories landing page is the only primary browsing view and already
+// has a clear page heading plus the persistent Home sidebar link. Its lone
+// active Categories pill therefore adds no information or navigation value.
+.navigation-categories .list-controls .nav-pills {
+  display: none !important;
 }
 
 // Discourse represents parent/child colours as a split square. This theme's
